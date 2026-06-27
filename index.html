@@ -135,6 +135,53 @@
   .path-node{font-size:13px;padding:7px 14px;border-radius:20px;border:1px solid var(--line-strong);color:var(--text-dim);}
   .path-arrow{color:var(--text-faint);margin:0 8px;font-size:13px;}
 
+  /* decision review */
+  #decision-review{padding-top:0;}
+  .decision-path{
+    display:flex;flex-direction:column;align-items:flex-start;gap:0;
+    padding:28px 32px;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;
+    margin-bottom:40px;max-width:320px;
+  }
+  .decision-step{display:flex;flex-direction:column;align-items:flex-start;gap:8px;}
+  .decision-step .path-node{color:var(--text);}
+  .decision-step:last-child .path-node{color:var(--text-dim);border-style:dashed;}
+  .decision-arrow{color:var(--text-faint);font-size:13px;margin-left:14px;line-height:1;}
+  .decision-actions{margin-bottom:0;}
+
+  .example-card{
+    background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:28px;
+    margin-top:48px;scroll-margin-top:24px;
+  }
+  .example-card-head{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line);
+  }
+  .example-label{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-faint);}
+  .example-verdict{
+    font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;
+    background:var(--green-bg);color:var(--green);border:1px solid rgba(127,174,110,0.3);
+  }
+  .example-row{margin-bottom:14px;}
+  .example-row:last-child{margin-bottom:0;}
+  .example-key{font-size:12px;color:var(--text-faint);margin-bottom:4px;}
+  .example-val{font-size:14px;color:var(--text-dim);line-height:1.6;}
+
+  .hive-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+  .hive-modal{background:var(--bg-card);border:1px solid var(--line-strong);border-radius:16px;padding:28px;max-width:420px;width:100%;position:relative;}
+  .hive-modal h3{font-size:18px;font-weight:600;margin-bottom:18px;}
+  .hive-field{margin-bottom:14px;}
+  .hive-field label{display:block;font-size:12px;color:var(--text-faint);margin-bottom:6px;}
+  .hive-field input, .hive-field textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--text);font-size:14px;font-family:inherit;}
+  .hive-field input:focus, .hive-field textarea:focus{outline:none;border-color:var(--honey);}
+  .hive-field textarea{resize:vertical;min-height:64px;}
+  .hive-modal-actions{display:flex;gap:10px;margin-top:18px;}
+  .hive-modal-actions button{flex:1;}
+  .hive-close{position:absolute;top:18px;right:18px;background:none;border:none;color:var(--text-faint);font-size:20px;cursor:pointer;line-height:1;}
+  .hive-close:hover{color:var(--text);}
+  .hive-success{text-align:center;padding:12px 0;}
+  .hive-success i{font-size:36px;color:var(--green);margin-bottom:12px;display:block;}
+  .hive-success p{font-size:14px;color:var(--text-dim);}
+
   .split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
   @media (max-width:760px){.split{grid-template-columns:1fr;}}
 
@@ -183,6 +230,7 @@
       <span class="brand-name">Hive</span>
     </div>
     <div class="nav-links">
+      <a href="#decision-review">Decision Review</a>
       <a href="#modules">Модули</a>
       <a href="#how">Как работает</a>
       <a href="#diagnostics">Диагностика</a>
@@ -198,7 +246,7 @@
     <h1>HR-процессы, собранные <em>как улей</em> — модуль за модулем</h1>
     <p class="hero-sub">13 связанных блоков: от подбора и адаптации до KPI и аналитики. Берите один модуль или собирайте систему целиком — каждый элемент работает сам и сильнее в связке с другими.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="location.href='diagnostics.html'">Пройти диагностику</button>
+      <button class="btn-primary" onclick="document.getElementById('decision-review').scrollIntoView({behavior:'smooth'})">Получить экспертное заключение</button>
       <button class="btn-outline" onclick="document.getElementById('modules').scrollIntoView({behavior:'smooth'})">Смотреть модули</button>
     </div>
     <div class="hero-stats">
@@ -207,6 +255,62 @@
       <div><div class="hstat-val">2–3 нед.</div><div class="hstat-label">на внедрение модуля</div></div>
     </div>
   </div>
+
+  <section id="decision-review">
+    <div class="section-eyebrow">Decision Review</div>
+    <h2>Не каждое HR-решение стоит внедрять.</h2>
+    <p class="section-lead">Перед тем как нанимать HR, внедрять KPI, покупать LMS или перестраивать адаптацию, получите независимое экспертное заключение.</p>
+
+    <div class="decision-path">
+      <div class="decision-step">
+        <span class="path-node">Запрос</span>
+        <span class="decision-arrow">↓</span>
+      </div>
+      <div class="decision-step">
+        <span class="path-node">Интервью</span>
+        <span class="decision-arrow">↓</span>
+      </div>
+      <div class="decision-step">
+        <span class="path-node">Анализ</span>
+        <span class="decision-arrow">↓</span>
+      </div>
+      <div class="decision-step">
+        <span class="path-node">Экспертное заключение</span>
+        <span class="decision-arrow">↓</span>
+      </div>
+      <div class="decision-step">
+        <span class="path-node">Вердикт</span>
+        <span class="decision-arrow">↓</span>
+      </div>
+      <div class="decision-step">
+        <span class="path-node">При необходимости сопровождение</span>
+      </div>
+    </div>
+
+    <div class="hero-actions decision-actions">
+      <button class="btn-primary" onclick="hiveOpenDecisionReview()">Получить экспертное заключение</button>
+      <button class="btn-outline" onclick="document.getElementById('decision-example').scrollIntoView({behavior:'smooth'})">Посмотреть пример заключения</button>
+    </div>
+
+    <div class="example-card" id="decision-example">
+      <div class="example-card-head">
+        <span class="example-label">Пример заключения</span>
+        <span class="example-verdict">Внедрять выборочно</span>
+      </div>
+      <div class="example-row">
+        <div class="example-key">Запрос</div>
+        <div class="example-val">Компания 45 человек, e-commerce. Руководитель хочет внедрить KPI для отдела продаж и нанять HR-менеджера.</div>
+      </div>
+      <div class="example-row">
+        <div class="example-key">Вердикт</div>
+        <div class="example-val">KPI для продаж — да, но после фиксации ролей и базового ритма 1:1. HR-менеджера нанимать рано: сначала закрыть процессы подбора и адаптации через модульную систему.</div>
+      </div>
+      <div class="example-row">
+        <div class="example-key">Рекомендуемый первый шаг</div>
+        <div class="example-val">Модуль «KPI и мотивация» + Decision Review сопровождение на этапе внедрения.</div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <div class="wrap" id="modules">
@@ -295,7 +399,38 @@
   </div>
 </footer>
 
+<div class="hive-overlay" id="hive-modal-overlay">
+  <div class="hive-modal">
+    <button class="hive-close" onclick="hiveCloseForm()" aria-label="Закрыть">&times;</button>
+    <h3 id="hive-modal-title">Получить экспертное заключение</h3>
+    <input type="hidden" id="hive-modal-module">
+    <input type="hidden" id="hive-modal-intent">
+    <form id="hive-form-fields" onsubmit="hiveSubmitForm(event)">
+      <div class="hive-field"><label for="hive-name">Имя</label><input type="text" id="hive-name" placeholder="Как вас зовут"></div>
+      <div class="hive-field"><label for="hive-contact">Телефон, телеграм или email</label><input type="text" id="hive-contact" required placeholder="Куда написать"></div>
+      <div class="hive-field"><label for="hive-comment">Комментарий (необязательно)</label><textarea id="hive-comment" placeholder="Какое HR-решение рассматриваете"></textarea></div>
+      <div class="hive-modal-actions">
+        <button type="button" class="btn-outline" onclick="hiveCloseForm()">Отмена</button>
+        <button type="submit" class="btn-primary">Отправить</button>
+      </div>
+    </form>
+    <div id="hive-form-success" style="display:none;" class="hive-success">
+      <i class="ti ti-circle-check"></i>
+      <p>Заявка отправлена. Свяжемся в течение дня.</p>
+      <div class="hive-modal-actions" style="margin-top:18px;">
+        <button class="btn-primary" style="flex:1;" onclick="hiveCloseForm()">Готово</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="hive-lead-capture.js"></script>
-<script>hiveTrackView('Главная страница');</script>
+<script>
+function hiveOpenDecisionReview() {
+  hiveOpenForm('Decision Review', 'start');
+  document.getElementById('hive-modal-title').textContent = 'Получить экспертное заключение';
+}
+hiveTrackView('Главная страница');
+</script>
 </body>
 </html>
