@@ -4,7 +4,7 @@
 */
 
 // !!! ЗАМЕНИ НА СВОЙ URL ПОСЛЕ РАЗВЁРТЫВАНИЯ APPS SCRIPT !!!
-const HIVE_SCRIPT_URL = 'https://script.google.com/macros/s/ВАШ_ID_СКРИПТА/exec';
+const HIVE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUzaUY1_ubysZg3-pzLWnenvrSYITD2nFG4N3DbSKhbIJqnLmLCxBTOdTPg2AZwy6Z9g/exec';
 
 function hiveSend(payload) {
   fetch(HIVE_SCRIPT_URL, {
