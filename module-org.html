@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оргструктура и роли — модуль Hive</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
+<style>
+  :root{
+    --bg: #1B1812;
+    --bg-card: #232017;
+    --line: rgba(244,201,105,0.14);
+    --line-strong: rgba(244,201,105,0.32);
+    --honey: #F4C969;
+    --amber: #E8A33D;
+    --text: #F2ECDD;
+    --text-dim: #B8AF9C;
+    --text-faint: #82796A;
+    --green: #7FAE6E;
+    --green-bg: rgba(127,174,110,0.12);
+    --amber-bg: rgba(232,163,61,0.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,'Segoe UI',sans-serif;line-height:1.6;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px 80px;}
+  nav{display:flex;align-items:center;gap:10px;padding:28px 0;}
+  .brand-mark{width:26px;height:26px;}
+  .brand-name{font-size:17px;font-weight:600;}
+  a.back{color:var(--text-faint);text-decoration:none;font-size:13px;margin-left:auto;}
+  a.back:hover{color:var(--honey);}
+  .crumb{font-size:13px;color:var(--text-faint);margin-bottom:24px;}
+  .crumb a{color:var(--text-faint);text-decoration:none;}
+  .crumb a:hover{color:var(--honey);}
+
+  .hero{display:grid;grid-template-columns:1fr 280px;gap:28px;align-items:start;margin-bottom:40px;}
+  @media (max-width:700px){.hero{grid-template-columns:1fr;}}
+  .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--amber);background:var(--amber-bg);padding:5px 14px;border-radius:20px;margin-bottom:16px;}
+  h1{font-size:32px;font-weight:600;letter-spacing:-0.01em;margin-bottom:14px;}
+  .hero-desc{font-size:15px;color:var(--text-dim);margin-bottom:18px;max-width:480px;}
+  .hero-meta{display:flex;gap:18px;flex-wrap:wrap;}
+  .meta-item{font-size:13px;color:var(--text-faint);}
+
+  .price-card{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:24px;text-align:center;}
+  .price-val{font-size:30px;font-weight:600;color:var(--honey);margin-bottom:2px;}
+  .price-sub{font-size:12px;color:var(--text-faint);margin-bottom:14px;}
+  .price-compare{font-size:12px;color:var(--text-dim);background:rgba(255,255,255,0.04);border-radius:10px;padding:10px;margin-bottom:16px;line-height:1.5;}
+  .price-compare s{color:var(--text-faint);}
+  .btn-primary{width:100%;background:var(--honey);color:#241B05;border:none;padding:13px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;margin-bottom:8px;}
+  .btn-primary:hover{background:#FFD685;}
+  .btn-outline{width:100%;background:transparent;border:1px solid var(--line-strong);color:var(--text);padding:11px;border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit;}
+  .btn-outline:hover{border-color:var(--honey);}
+
+  .divider{height:1px;background:var(--line);margin:40px 0;}
+  .sec-label{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-faint);margin-bottom:18px;}
+
+  .arts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+  .art-item{background:var(--bg-card);border:1px solid var(--line);border-radius:10px;padding:13px 16px;display:flex;align-items:center;gap:10px;}
+  .art-icon{font-size:16px;color:var(--honey);flex-shrink:0;}
+  .art-name{font-size:13px;color:var(--text);}
+  .art-fmt{font-size:11px;color:var(--text-faint);margin-top:2px;}
+
+  .steps{display:flex;flex-direction:column;}
+  .step{display:grid;grid-template-columns:36px 1fr;gap:14px;}
+  .step-line{display:flex;flex-direction:column;align-items:center;}
+  .step-num{width:30px;height:30px;border-radius:50%;border:1px solid var(--honey);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--honey);flex-shrink:0;}
+  .step-connector{width:1px;flex:1;background:var(--line);min-height:24px;margin:4px 0;}
+  .step-body{padding-bottom:24px;}
+  .step-title{font-size:15px;font-weight:600;margin-bottom:4px;}
+  .step-desc{font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:6px;}
+  .step-tag{display:inline-block;font-size:11px;color:var(--text-faint);background:var(--bg-card);border:1px solid var(--line);padding:3px 10px;border-radius:20px;}
+
+  .pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:600px){.pain-grid{grid-template-columns:1fr;}}
+  .pain-card{border-radius:14px;border:1px solid var(--line);padding:18px;background:var(--bg-card);border-left:3px solid var(--text-faint);}
+  .pain-card.bad{border-left-color:var(--amber);}
+  .pain-card.good{border-left-color:var(--green);}
+  .pain-head{font-size:12px;font-weight:600;margin-bottom:8px;color:var(--text-dim);}
+  .pain-card.good .pain-head{color:var(--green);}
+  .pain-card.bad .pain-head{color:var(--amber);}
+  .pain-text{font-size:13px;color:var(--text-dim);line-height:1.6;}
+
+  .faq{display:flex;flex-direction:column;gap:8px;}
+  .faq-item{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg-card);}
+  .faq-q{padding:14px 18px;font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+  .faq-q:hover{background:rgba(255,255,255,0.02);}
+  .faq-arrow{color:var(--text-faint);transition:transform 0.2s;}
+  .faq-a{padding:0 18px 0;font-size:13px;color:var(--text-dim);line-height:1.6;max-height:0;overflow:hidden;transition:max-height 0.2s,padding 0.2s;}
+  .faq-a.open{padding:0 18px 16px;max-height:200px;}
+
+  .synergy-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .syn-chip{display:flex;align-items:center;gap:6px;font-size:13px;padding:8px 14px;border-radius:20px;border:1px solid var(--line);color:var(--text-dim);cursor:pointer;text-decoration:none;}
+  .syn-chip:hover{border-color:var(--honey);color:var(--honey);background:rgba(244,201,105,0.06);}
+
+  .bottom-cta{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+  .bc-title{font-size:16px;font-weight:600;margin-bottom:2px;}
+  .bc-sub{font-size:13px;color:var(--text-faint);}
+  .bc-btns{display:flex;gap:10px;}
+  .bc-btns .btn-primary, .bc-btns .btn-outline{width:auto;padding:11px 22px;}
+
+  .hive-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+  .hive-modal{background:var(--bg-card);border:1px solid var(--line-strong);border-radius:16px;padding:28px;max-width:420px;width:100%;}
+  .hive-modal h3{font-size:18px;font-weight:600;margin-bottom:18px;}
+  .hive-field{margin-bottom:14px;}
+  .hive-field label{display:block;font-size:12px;color:var(--text-faint);margin-bottom:6px;}
+  .hive-field input, .hive-field textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--text);font-size:14px;font-family:inherit;}
+  .hive-field input:focus, .hive-field textarea:focus{outline:none;border-color:var(--honey);}
+  .hive-field textarea{resize:vertical;min-height:64px;}
+  .hive-modal-actions{display:flex;gap:10px;margin-top:18px;}
+  .hive-modal-actions button{flex:1;}
+  .hive-close{position:absolute;top:18px;right:18px;background:none;border:none;color:var(--text-faint);font-size:20px;cursor:pointer;line-height:1;}
+  .hive-close:hover{color:var(--text);}
+  .hive-modal{position:relative;}
+  .hive-success{text-align:center;padding:12px 0;}
+  .hive-success i{font-size:36px;color:var(--green);margin-bottom:12px;display:block;}
+  .hive-success p{font-size:14px;color:var(--text-dim);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <svg class="brand-mark" viewBox="0 0 32 32" fill="none"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#F4C969" stroke-width="1.4"/><polygon points="16,8 22,11.5 22,20.5 16,24 10,20.5 10,11.5" fill="#F4C969"/><polygon points="16,11 19,12.7 19,19.3 16,21 13,19.3 13,12.7" fill="#1B1812"/></svg>
+    <span class="brand-name">Hive</span>
+    <a class="back" href="index.html">← на главную</a>
+  </nav>
+
+  <div class="crumb"><a href="diagnostics.html">все модули</a> / Оргструктура и роли</div>
+
+  <div class="hero">
+    <div>
+      <div class="tag"><i class="ti ti-sitemap"></i> Фундамент системы</div>
+      <h1>Оргструктура и роли</h1>
+      <p class="hero-desc">Схема структуры компании, реестр ролей, матрица RACI и должностные профили. Базовый модуль — с него начинается связность всей системы.</p>
+      <div class="hero-meta">
+        <span class="meta-item"><i class="ti ti-files"></i> 8 артефактов</span>
+        <span class="meta-item"><i class="ti ti-clock"></i> 1–2 недели</span>
+        <span class="meta-item"><i class="ti ti-users"></i> для команд от 5 человек</span>
+      </div>
+    </div>
+    <div class="price-card">
+      <div class="price-val">18 000 ₽</div>
+      <div class="price-sub">за полный модуль</div>
+      <div class="price-compare">аутсорс аналога:<br><s>150 000–250 000 ₽</s></div>
+      <button class="btn-primary" onclick="hiveOpenForm(MODULE_NAME, 'start')">Запустить модуль</button>
+      <button class="btn-outline" onclick="hiveOpenForm(MODULE_NAME, 'question')">Задать вопрос</button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label">Что вы получите — 9 артефактов</div>
+  <div class="arts-grid">
+    <div class="art-item"><i class="ti ti-sitemap art-icon"></i><div><div class="art-name">Схема оргструктуры</div><div class="art-fmt">DOCX/PDF</div></div></div>
+    <div class="art-item"><i class="ti ti-list-details art-icon"></i><div><div class="art-name">Реестр ролей</div><div class="art-fmt">XLSX</div></div></div>
+    <div class="art-item"><i class="ti ti-affiliate art-icon"></i><div><div class="art-name">Матрица RACI</div><div class="art-fmt">XLSX</div></div></div>
+    <div class="art-item"><i class="ti ti-file-text art-icon"></i><div><div class="art-name">Должностные профили</div><div class="art-fmt">DOCX</div></div></div>
+    <div class="art-item"><i class="ti ti-settings art-icon"></i><div><div class="art-name">Карта зон ответственности</div><div class="art-fmt">DOCX</div></div></div>
+    <div class="art-item"><i class="ti ti-arrows-left-right art-icon"></i><div><div class="art-name">Схема взаимодействия отделов</div><div class="art-fmt">PDF</div></div></div>
+    <div class="art-item"><i class="ti ti-help-circle art-icon"></i><div><div class="art-name">FAQ по новой структуре</div><div class="art-fmt">DOCX</div></div></div>
+    <div class="art-item"><i class="ti ti-refresh art-icon"></i><div><div class="art-name">Регламент пересмотра структуры</div><div class="art-fmt">DOCX</div></div></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label">Как проходит внедрение</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-line"><div class="step-num">1</div><div class="step-connector"></div></div>
+      <div class="step-body"><div class="step-title">Диагностика текущей структуры</div><div class="step-desc">Разбираем как фактически распределены роли и зоны ответственности сегодня, выявляем дублирование и пробелы.</div><div class="step-tag">1 сессия · 1–2 часа</div></div>
+    </div>
+    <div class="step">
+      <div class="step-line"><div class="step-num">2</div><div class="step-connector"></div></div>
+      <div class="step-body"><div class="step-title">Сборка схемы и RACI</div><div class="step-desc">Формируем целевую оргструктуру, реестр ролей и матрицу RACI под вашу компанию.</div><div class="step-tag">1 неделя</div></div>
+    </div>
+    <div class="step">
+      <div class="step-line"><div class="step-num">3</div></div>
+      <div class="step-body"><div class="step-title">Согласование и внедрение</div><div class="step-desc">Презентуем структуру руководителям, фиксируем зоны ответственности, запускаем в работу.</div><div class="step-tag">1 сессия · запуск</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label">Какую боль закрывает</div>
+  <div class="pain-grid">
+    <div class="pain-card bad">
+      <div class="pain-head"><i class="ti ti-alert-triangle"></i> Без модуля</div>
+      <div class="pain-text">Никто точно не знает кто за что отвечает. Задачи теряются между отделами или дублируются. Решения принимаются медленно — непонятно к кому идти.</div>
+    </div>
+    <div class="pain-card good">
+      <div class="pain-head"><i class="ti ti-check"></i> С модулем</div>
+      <div class="pain-text">Каждая роль и зона ответственности зафиксированы. Задачи попадают к нужному человеку напрямую. Структура становится основой для подбора, KPI и аналитики.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label">Частые вопросы</div>
+  <div class="faq">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Подходит для небольшой команды?</span><i class="ti ti-chevron-down faq-arrow"></i></div>
+      <div class="faq-a">Да, модуль масштабируется. Для команды до 30 человек структура проще, но принцип тот же — явные роли и зоны ответственности.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Что если структура часто меняется?</span><i class="ti ti-chevron-down faq-arrow"></i></div>
+      <div class="faq-a">Это нормально для растущей компании. В модуль входит регламент пересмотра структуры — фиксированная процедура обновления, а не разовый документ.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Нужно ли увольнять или менять людей?</span><i class="ti ti-chevron-down faq-arrow"></i></div>
+      <div class="faq-a">Нет. Модуль описывает роли и ответственность, а не людей. Часто оказывается что один человек закрывает 2-3 роли — это просто становится видимым.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>С чего начинается внедрение остальных модулей?</span><i class="ti ti-chevron-down faq-arrow"></i></div>
+      <div class="faq-a">Оргструктура — фундамент. После неё подбор, KPI и аналитика становятся точнее, потому что строятся на понятных ролях.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label">Работает сильнее в связке с</div>
+  <div class="synergy-row">
+    <a class="syn-chip" href="module-org.html"><i class="ti ti-sitemap"></i> Оргструктура и роли</a>
+    <a class="syn-chip" href="module-mgmt.html"><i class="ti ti-calendar-event"></i> Регулярный менеджмент</a>
+    <a class="syn-chip" href="module-analytics.html"><i class="ti ti-chart-bar"></i> HR-аналитика</a>
+    <a class="syn-chip" href="diagnostics.html"><i class="ti ti-award"></i> Кадровый резерв</a>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="bottom-cta">
+    <div><div class="bc-title">Готовы запустить?</div><div class="bc-sub">Первый шаг — короткий разговор о вашей ситуации</div></div>
+    <div class="bc-btns">
+      <button class="btn-outline" onclick="hiveOpenForm(MODULE_NAME, 'question')">Вопрос</button>
+      <button class="btn-primary" onclick="hiveOpenForm(MODULE_NAME, 'start')">Начать</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="hive-overlay" id="hive-modal-overlay">
+  <div class="hive-modal">
+    <button class="hive-close" onclick="hiveCloseForm()" aria-label="Закрыть">&times;</button>
+    <h3 id="hive-modal-title">Запустить модуль</h3>
+    <input type="hidden" id="hive-modal-module">
+    <input type="hidden" id="hive-modal-intent">
+    <form id="hive-form-fields" onsubmit="hiveSubmitForm(event)">
+      <div class="hive-field"><label for="hive-name">Имя</label><input type="text" id="hive-name" placeholder="Как вас зовут"></div>
+      <div class="hive-field"><label for="hive-contact">Телефон, телеграм или email</label><input type="text" id="hive-contact" required placeholder="Куда написать"></div>
+      <div class="hive-field"><label for="hive-comment">Комментарий (необязательно)</label><textarea id="hive-comment" placeholder="Коротко о вашей ситуации"></textarea></div>
+      <div class="hive-modal-actions">
+        <button type="button" class="btn-outline" onclick="hiveCloseForm()">Отмена</button>
+        <button type="submit" class="btn-primary">Отправить</button>
+      </div>
+    </form>
+    <div id="hive-form-success" style="display:none;" class="hive-success">
+      <i class="ti ti-circle-check"></i>
+      <p>Заявка отправлена. Свяжемся в течение дня.</p>
+      <div class="hive-modal-actions" style="margin-top:18px;">
+        <button class="btn-primary" style="flex:1;" onclick="hiveCloseForm()">Готово</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="hive-lead-capture.js"></script>
+<script>
+const MODULE_NAME = "Оргструктура и роли";
+function toggleFaq(el){
+  const a=el.nextElementSibling;
+  const arrow=el.querySelector('.faq-arrow');
+  const isOpen=a.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.faq-arrow').forEach(x=>x.style.transform='');
+  if(!isOpen){a.classList.add('open');arrow.style.transform='rotate(180deg)';}
+}
+hiveTrackView(MODULE_NAME);
+</script>
+</body>
+</html>

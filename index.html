@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hive — модульная HR-система для бизнеса</title>
+<meta name="description" content="Hive — конструктор HR-процессов из 13 модулей. Диагностика, подбор приоритетов и готовые к внедрению артефакты.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
+<style>
+  :root{
+    --bg: #1B1812;
+    --bg-card: #232017;
+    --bg-card-hover: #2B2720;
+    --line: rgba(244,201,105,0.14);
+    --line-strong: rgba(244,201,105,0.32);
+    --honey: #F4C969;
+    --amber: #E8A33D;
+    --amber-deep: #C97C1F;
+    --text: #F2ECDD;
+    --text-dim: #B8AF9C;
+    --text-faint: #82796A;
+    --green: #7FAE6E;
+    --green-bg: rgba(127,174,110,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,'Segoe UI',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+
+  /* hex texture backdrop */
+  .hex-field{
+    position:absolute; top:0; left:0; width:100%; height:680px;
+    background-image:
+      repeating-linear-gradient(60deg, transparent, transparent 39px, var(--line) 39px, var(--line) 40px),
+      repeating-linear-gradient(-60deg, transparent, transparent 39px, var(--line) 39px, var(--line) 40px);
+    opacity:0.5;
+    mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
+    pointer-events:none;
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;position:relative;}
+
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:28px 0; position:relative; z-index:2;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-mark{width:30px;height:30px;flex-shrink:0;}
+  .brand-name{font-size:18px;font-weight:600;letter-spacing:-0.01em;}
+  .nav-links{display:flex;gap:32px;align-items:center;}
+  .nav-links a{color:var(--text-dim);text-decoration:none;font-size:14px;transition:color 0.15s;}
+  .nav-links a:hover{color:var(--honey);}
+  .nav-cta{
+    background:transparent;border:1px solid var(--line-strong);color:var(--honey);
+    padding:9px 18px;border-radius:8px;font-size:14px;cursor:pointer;
+    transition:background 0.15s,border-color 0.15s;font-family:inherit;
+  }
+  .nav-cta:hover{background:rgba(244,201,105,0.08);border-color:var(--honey);}
+
+  .hero{padding:64px 0 80px;position:relative;z-index:2;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber);
+    border:1px solid var(--line-strong);padding:6px 14px;border-radius:20px;margin-bottom:28px;
+  }
+  .eyebrow svg{width:12px;height:12px;}
+  h1{
+    font-size:52px;font-weight:600;letter-spacing:-0.02em;line-height:1.08;
+    max-width:680px;margin-bottom:24px;
+  }
+  h1 em{font-style:normal;color:var(--honey);}
+  .hero-sub{
+    font-size:18px;color:var(--text-dim);max-width:540px;margin-bottom:40px;
+  }
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px;}
+  .btn-primary{
+    background:var(--honey);color:#241B05;border:none;
+    padding:14px 28px;border-radius:9px;font-size:15px;font-weight:600;cursor:pointer;
+    font-family:inherit;transition:background 0.15s,transform 0.1s;
+  }
+  .btn-primary:hover{background:#FFD685;}
+  .btn-primary:active{transform:scale(0.98);}
+  .btn-outline{
+    background:transparent;border:1px solid var(--line-strong);color:var(--text);
+    padding:14px 28px;border-radius:9px;font-size:15px;cursor:pointer;font-family:inherit;
+    transition:border-color 0.15s,background 0.15s;
+  }
+  .btn-outline:hover{border-color:var(--honey);background:rgba(244,201,105,0.06);}
+
+  .hero-stats{display:flex;gap:48px;flex-wrap:wrap;}
+  .hstat-val{font-size:28px;font-weight:600;color:var(--honey);}
+  .hstat-label{font-size:13px;color:var(--text-faint);margin-top:2px;}
+
+  section{padding:72px 0;position:relative;z-index:2;}
+  .section-eyebrow{
+    font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);
+    margin-bottom:12px;
+  }
+  h2{font-size:32px;font-weight:600;letter-spacing:-0.01em;margin-bottom:16px;max-width:560px;}
+  .section-lead{font-size:16px;color:var(--text-dim);max-width:560px;margin-bottom:48px;}
+
+  /* hive grid for modules */
+  .hive-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;
+  }
+  .cell{
+    background:var(--bg-card); border:1px solid var(--line);
+    border-radius:14px; padding:22px;
+    transition:border-color 0.15s,background 0.15s,transform 0.15s;
+    cursor:pointer; position:relative;
+  }
+  .cell:hover{border-color:var(--line-strong);background:var(--bg-card-hover);transform:translateY(-2px);}
+  .cell-icon{
+    width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    background:rgba(244,201,105,0.1);color:var(--honey);margin-bottom:14px;font-size:18px;
+  }
+  .cell-name{font-size:15px;font-weight:600;margin-bottom:6px;}
+  .cell-desc{font-size:13px;color:var(--text-dim);line-height:1.5;margin-bottom:14px;}
+  .cell-foot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-faint);}
+  .cell-price{color:var(--honey);font-weight:600;}
+
+  /* path / connective tissue */
+  .path-row{
+    display:flex;align-items:center;gap:0;flex-wrap:wrap;margin-top:40px;
+    padding:20px;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;
+  }
+  .path-node{font-size:13px;padding:7px 14px;border-radius:20px;border:1px solid var(--line-strong);color:var(--text-dim);}
+  .path-arrow{color:var(--text-faint);margin:0 8px;font-size:13px;}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  @media (max-width:760px){.split{grid-template-columns:1fr;}}
+
+  .pain-card{
+    background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:24px;
+  }
+  .pain-card.bad{border-left:3px solid #C97C1F;}
+  .pain-card.good{border-left:3px solid var(--green);}
+  .pain-head{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text-dim);}
+  .pain-card.good .pain-head{color:var(--green);}
+  .pain-card.bad .pain-head{color:var(--amber);}
+  .pain-card p{font-size:14px;color:var(--text-dim);line-height:1.6;}
+
+  .cta-band{
+    background:linear-gradient(135deg, rgba(244,201,105,0.08), rgba(244,201,105,0.02));
+    border:1px solid var(--line-strong);border-radius:20px;padding:48px;text-align:center;
+  }
+  .cta-band h2{margin:0 auto 12px;max-width:480px;}
+  .cta-band p{color:var(--text-dim);max-width:440px;margin:0 auto 28px;font-size:15px;}
+
+  footer{
+    border-top:1px solid var(--line);padding:36px 0;position:relative;z-index:2;
+  }
+  .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .foot-row span{font-size:13px;color:var(--text-faint);}
+
+  @media (max-width:680px){
+    h1{font-size:36px;}
+    .nav-links{display:none;}
+    .split{gap:32px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hex-field" aria-hidden="true"></div>
+
+<div class="wrap">
+  <nav>
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#F4C969" stroke-width="1.4"/>
+        <polygon points="16,8 22,11.5 22,20.5 16,24 10,20.5 10,11.5" fill="#F4C969"/>
+        <polygon points="16,11 19,12.7 19,19.3 16,21 13,19.3 13,12.7" fill="#1B1812"/>
+      </svg>
+      <span class="brand-name">Hive</span>
+    </div>
+    <div class="nav-links">
+      <a href="#modules">Модули</a>
+      <a href="#how">Как работает</a>
+      <a href="#diagnostics">Диагностика</a>
+    </div>
+    <button class="nav-cta" onclick="location.href='diagnostics.html'">Диагностика</button>
+  </nav>
+
+  <div class="hero">
+    <div class="eyebrow">
+      <svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#E8A33D" stroke-width="1.4"/><circle cx="6" cy="6" r="1.6" fill="#E8A33D"/></svg>
+      Модульная HR-система
+    </div>
+    <h1>HR-процессы, собранные <em>как улей</em> — модуль за модулем</h1>
+    <p class="hero-sub">13 связанных блоков: от подбора и адаптации до KPI и аналитики. Берите один модуль или собирайте систему целиком — каждый элемент работает сам и сильнее в связке с другими.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="location.href='diagnostics.html'">Пройти диагностику</button>
+      <button class="btn-outline" onclick="document.getElementById('modules').scrollIntoView({behavior:'smooth'})">Смотреть модули</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hstat-val">13</div><div class="hstat-label">модулей системы</div></div>
+      <div><div class="hstat-val">110+</div><div class="hstat-label">готовых артефактов</div></div>
+      <div><div class="hstat-val">2–3 нед.</div><div class="hstat-label">на внедрение модуля</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="modules">
+  <section>
+    <div class="section-eyebrow">Карта системы</div>
+    <h2>Каждый модуль — рабочая ячейка</h2>
+    <p class="section-lead">Можно начать с одного блока под конкретную задачу. Система подскажет, что усилит результат дальше.</p>
+
+    <div class="hive-grid">
+      <div class="cell" onclick="location.href='module-kpi.html'">
+        <div class="cell-icon"><i class="ti ti-target"></i></div>
+        <div class="cell-name">KPI и мотивация</div>
+        <div class="cell-desc">Матрица KPI, формула и калькулятор премии, регламент пересмотра</div>
+        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">22 000 ₽</span></div>
+      </div>
+      <div class="cell" onclick="location.href='module-adapt.html'">
+        <div class="cell-icon"><i class="ti ti-rocket"></i></div>
+        <div class="cell-name">Адаптация 30/60/90</div>
+        <div class="cell-desc">Маршрут адаптации, чек-листы, контрольные точки для руководителя</div>
+        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">18 000 ₽</span></div>
+      </div>
+      <div class="cell" onclick="location.href='module-hire.html'">
+        <div class="cell-icon"><i class="ti ti-search"></i></div>
+        <div class="cell-name">Подбор и найм</div>
+        <div class="cell-desc">Воронка найма, профиль кандидата, скрипты интервью, оффер</div>
+        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">20 000 ₽</span></div>
+      </div>
+      <div class="cell" onclick="location.href='module-org.html'">
+        <div class="cell-icon"><i class="ti ti-sitemap"></i></div>
+        <div class="cell-name">Оргструктура и роли</div>
+        <div class="cell-desc">Схема структуры, RACI, должностные профили</div>
+        <div class="cell-foot"><span>8 артефактов</span><span class="cell-price">18 000 ₽</span></div>
+      </div>
+      <div class="cell" onclick="location.href='module-mgmt.html'">
+        <div class="cell-icon"><i class="ti ti-calendar-event"></i></div>
+        <div class="cell-name">Регулярный менеджмент</div>
+        <div class="cell-desc">Ритм планерок, 1:1 встречи, отчётность руководителя</div>
+        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">16 000 ₽</span></div>
+      </div>
+      <div class="cell" onclick="location.href='module-analytics.html'">
+        <div class="cell-icon"><i class="ti ti-chart-bar"></i></div>
+        <div class="cell-name">HR-аналитика</div>
+        <div class="cell-desc">Дашборды подбора, адаптации, KPI и текучести</div>
+        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">20 000 ₽</span></div>
+      </div>
+    </div>
+
+    <div class="path-row">
+      <span class="path-node">Диагностика</span><span class="path-arrow">→</span>
+      <span class="path-node">Оргструктура</span><span class="path-arrow">→</span>
+      <span class="path-node">Подбор</span><span class="path-arrow">→</span>
+      <span class="path-node">Адаптация</span><span class="path-arrow">→</span>
+      <span class="path-node">KPI</span><span class="path-arrow">→</span>
+      <span class="path-node">Аналитика</span>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="split">
+      <div class="pain-card bad">
+        <div class="pain-head">Без системы</div>
+        <p>HR-процессы держатся на памяти и договорённостях. Каждый новый сотрудник адаптируется по-своему. Премии выплачиваются по ощущениям. Руководитель не видит, что именно не работает.</p>
+      </div>
+      <div class="pain-card good">
+        <div class="pain-head">С Hive</div>
+        <p>Каждый процесс описан и измерим. Новый сотрудник проходит понятный маршрут. Премия считается по формуле. Видно, какой блок системы нужно усилить следующим.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="diagnostics">
+    <div class="cta-band">
+      <h2>Начните с диагностики</h2>
+      <p>5–7 минут — и вы увидите карту своей HR-системы: что уже работает, что стоит запустить первым.</p>
+      <button class="btn-primary" onclick="location.href='diagnostics.html'">Пройти диагностику</button>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <span>Hive — модульная HR-система</span>
+      <span>Санкт-Петербург</span>
+    </div>
+  </div>
+</footer>
+
+<script src="hive-lead-capture.js"></script>
+<script>hiveTrackView('Главная страница');</script>
+</body>
+</html>

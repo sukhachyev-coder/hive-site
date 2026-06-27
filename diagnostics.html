@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Диагностика HR-системы — Hive</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
+<style>
+  :root{
+    --bg: #1B1812;
+    --bg-card: #232017;
+    --bg-card-hover: #2B2720;
+    --line: rgba(244,201,105,0.14);
+    --line-strong: rgba(244,201,105,0.32);
+    --honey: #F4C969;
+    --amber: #E8A33D;
+    --text: #F2ECDD;
+    --text-dim: #B8AF9C;
+    --text-faint: #82796A;
+    --green: #7FAE6E;
+    --green-bg: rgba(127,174,110,0.12);
+    --amber-bg: rgba(232,163,61,0.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,'Segoe UI',sans-serif;line-height:1.6;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px;}
+  nav{display:flex;align-items:center;gap:10px;padding:28px 0;}
+  .brand-mark{width:26px;height:26px;}
+  .brand-name{font-size:17px;font-weight:600;}
+  a.back{color:var(--text-faint);text-decoration:none;font-size:13px;margin-left:auto;}
+  a.back:hover{color:var(--honey);}
+
+  .screen{display:none;}
+  .screen.visible{display:block;}
+
+  /* intro */
+  .intro{max-width:500px;margin:48px auto;text-align:center;}
+  .intro svg.big{width:64px;height:64px;margin-bottom:20px;}
+  .intro h1{font-size:28px;font-weight:600;margin-bottom:12px;letter-spacing:-0.01em;}
+  .intro p{color:var(--text-dim);font-size:15px;margin-bottom:28px;}
+  .intro-meta{display:flex;justify-content:center;gap:24px;margin-bottom:32px;flex-wrap:wrap;}
+  .im-item{font-size:13px;color:var(--text-faint);}
+  .btn-primary{
+    background:var(--honey);color:#241B05;border:none;padding:14px 30px;border-radius:9px;
+    font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;
+  }
+  .btn-primary:hover{background:#FFD685;}
+  .btn-outline{
+    background:transparent;border:1px solid var(--line-strong);color:var(--text);
+    padding:13px 26px;border-radius:9px;font-size:14px;cursor:pointer;font-family:inherit;
+  }
+  .btn-outline:hover{border-color:var(--honey);}
+
+  /* question card */
+  .q-wrap{max-width:560px;margin:40px auto;}
+  .q-card{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:32px;}
+  .q-top{display:flex;justify-content:space-between;font-size:12px;color:var(--text-faint);margin-bottom:10px;}
+  .q-track{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:24px;overflow:hidden;}
+  .q-fill{height:100%;background:var(--honey);border-radius:2px;transition:width 0.3s;}
+  .q-module{font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;}
+  .q-text{font-size:19px;font-weight:600;margin-bottom:24px;line-height:1.4;}
+  .q-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+  .q-opt{
+    text-align:left;padding:14px 16px;border-radius:10px;border:1px solid var(--line);
+    background:transparent;color:var(--text);font-size:14px;cursor:pointer;font-family:inherit;
+    transition:border-color 0.15s,background 0.15s;
+  }
+  .q-opt:hover{border-color:var(--line-strong);background:rgba(244,201,105,0.04);}
+  .q-opt.selected{border-color:var(--honey);background:var(--green-bg);color:var(--text);}
+  .q-nav{display:flex;justify-content:space-between;align-items:center;}
+  .q-back-btn{background:none;border:none;color:var(--text-faint);font-size:13px;cursor:pointer;font-family:inherit;}
+  .q-back-btn:hover{color:var(--text-dim);}
+  .q-back-btn:disabled{visibility:hidden;}
+  .q-next-btn{
+    background:var(--honey);color:#241B05;border:none;padding:10px 24px;border-radius:8px;
+    font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;
+  }
+  .q-next-btn:disabled{background:rgba(244,201,105,0.2);color:var(--text-faint);cursor:default;}
+
+  /* cabinet */
+  .cab-top{display:flex;justify-content:space-between;align-items:flex-start;margin:32px 0 24px;flex-wrap:wrap;gap:16px;}
+  .cab-h1{font-size:26px;font-weight:600;margin-bottom:4px;}
+  .cab-sub{font-size:14px;color:var(--text-dim);}
+  .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
+  .stat{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:16px;}
+  .stat-val{font-size:24px;font-weight:600;}
+  .stat-label{font-size:12px;color:var(--text-faint);margin-top:2px;}
+
+  .legend{display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;}
+  .leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-dim);}
+  .leg-dot{width:9px;height:9px;border-radius:2px;}
+
+  .modules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:32px;}
+  .mod{
+    background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px;
+    cursor:pointer;transition:border-color 0.15s,transform 0.15s;border-left:3px solid var(--text-faint);
+  }
+  .mod:hover{border-color:var(--line-strong);transform:translateY(-1px);}
+  .mod.st-active{border-left-color:var(--green);}
+  .mod.st-priority{border-left-color:var(--amber);}
+  .mod-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+  .mod-icon{font-size:18px;color:var(--honey);}
+  .mod-badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;}
+  .b-active{background:var(--green-bg);color:var(--green);}
+  .b-priority{background:var(--amber-bg);color:var(--amber);}
+  .b-synergy{background:rgba(255,255,255,0.06);color:var(--text-faint);}
+  .mod-name{font-size:14px;font-weight:600;margin-bottom:4px;}
+  .mod-desc{font-size:12px;color:var(--text-dim);line-height:1.5;margin-bottom:10px;}
+  .mod-hint{font-size:11px;color:var(--text-faint);margin-bottom:8px;}
+  .mod-foot{display:flex;justify-content:space-between;font-size:12px;border-top:1px solid var(--line);padding-top:10px;color:var(--text-faint);}
+  .mod-price{color:var(--honey);font-weight:600;}
+  .mod-price.free{color:var(--green);}
+
+  .chain-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:32px;}
+  .cn{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--line);color:var(--text-faint);}
+  .cn.on{border-color:var(--green);color:var(--green);background:var(--green-bg);}
+  .cn-arr{color:var(--text-faint);font-size:12px;}
+
+  .reset-banner{
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:48px;
+  }
+  .rb-title{font-size:14px;font-weight:600;margin-bottom:2px;}
+  .rb-sub{font-size:12px;color:var(--text-faint);}
+
+  @media (max-width:600px){
+    .q-card{padding:22px;}
+    .stats-row{grid-template-columns:1fr 1fr 1fr;gap:8px;}
+    .stat{padding:12px 10px;}
+    .stat-val{font-size:19px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <svg class="brand-mark" viewBox="0 0 32 32" fill="none"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#F4C969" stroke-width="1.4"/><polygon points="16,8 22,11.5 22,20.5 16,24 10,20.5 10,11.5" fill="#F4C969"/><polygon points="16,11 19,12.7 19,19.3 16,21 13,19.3 13,12.7" fill="#1B1812"/></svg>
+    <span class="brand-name">Hive</span>
+    <a class="back" href="index.html">← на главную</a>
+  </nav>
+
+  <!-- INTRO -->
+  <div id="s-intro" class="screen visible">
+    <div class="intro">
+      <svg class="big" viewBox="0 0 32 32" fill="none"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#F4C969" stroke-width="1.2"/><polygon points="16,8 22,11.5 22,20.5 16,24 10,20.5 10,11.5" fill="#F4C969"/><polygon points="16,11 19,12.7 19,19.3 16,21 13,19.3 13,12.7" fill="#1B1812"/></svg>
+      <h1>Диагностика HR-системы</h1>
+      <p>Ответьте на 8 вопросов — получите карту своей HR-системы: что уже работает, что стоит запустить первым, а что усилит результат позже.</p>
+      <div class="intro-meta">
+        <span class="im-item"><i class="ti ti-clock"></i> 5–7 минут</span>
+        <span class="im-item"><i class="ti ti-lock"></i> Данные обезличены</span>
+        <span class="im-item"><i class="ti ti-grid-dots"></i> 8 блоков</span>
+      </div>
+      <button class="btn-primary" onclick="startDiag()">Начать диагностику</button>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div id="s-diag" class="screen">
+    <div class="q-wrap">
+      <div class="q-card">
+        <div class="q-top"><span id="q-mod-label"></span><span id="q-counter"></span></div>
+        <div class="q-track"><div class="q-fill" id="q-fill"></div></div>
+        <div class="q-module" id="q-module"></div>
+        <div class="q-text" id="q-text"></div>
+        <div class="q-opts" id="q-opts"></div>
+        <div class="q-nav">
+          <button class="q-back-btn" id="q-back" onclick="prevQ()">← Назад</button>
+          <button class="q-next-btn" id="q-next" onclick="nextQ()" disabled>Далее →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CABINET -->
+  <div id="s-cabinet" class="screen">
+    <div class="cab-top">
+      <div>
+        <div class="cab-h1">Ваша HR-система</div>
+        <div class="cab-sub" id="cab-sub">Карта собрана на основе диагностики</div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val" id="st-active" style="color:var(--green)">0</div><div class="stat-label">работает</div></div>
+      <div class="stat"><div class="stat-val" id="st-priority" style="color:var(--amber)">0</div><div class="stat-label">приоритет</div></div>
+      <div class="stat"><div class="stat-val" id="st-synergy" style="color:var(--text-faint)">0</div><div class="stat-label">усилит систему</div></div>
+    </div>
+
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>Уже работает</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--amber)"></div>Приоритет — стоит запустить</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--text-faint)"></div>Усилит систему в связке</div>
+    </div>
+
+    <div class="modules-grid" id="mod-grid"></div>
+
+    <div class="chain-row" id="chain"></div>
+
+    <div class="reset-banner">
+      <div><div class="rb-title">Пройти диагностику заново</div><div class="rb-sub">Данные обновятся — карта пересчитается</div></div>
+      <button class="btn-outline" onclick="resetDiag()">Сбросить</button>
+    </div>
+  </div>
+</div>
+
+<script src="hive-lead-capture.js"></script>
+<script>
+const questions = [
+  {module:'О компании', text:'Сколько сотрудников в вашей компании?', opts:['До 30 человек','30–100 человек','100–300 человек','Более 300 человек'], key:'size'},
+  {module:'Оргструктура', text:'Есть ли у вас формализованная оргструктура с описанными ролями и зонами ответственности?', opts:['Да, описана и актуальна','Частично — есть схема, но роли размыты','Нет, всё держится на договорённостях'], key:'org'},
+  {module:'Подбор', text:'Как устроен процесс найма?', opts:['Есть воронка, профили, скрипты интервью','Есть базовый процесс, но без стандартов','Нанимаем по ситуации, единого процесса нет'], key:'hire'},
+  {module:'Адаптация', text:'Как новый сотрудник входит в роль?', opts:['Есть маршрут 30/60/90 с контрольными точками','Есть базовый онбординг без системы','Адаптация зависит от руководителя'], key:'adapt'},
+  {module:'KPI и мотивация', text:'Как оцениваете результат сотрудников?', opts:['Есть KPI-матрицы и формула премии','Оцениваем, но без единого стандарта','Оценка субъективная или отсутствует'], key:'kpi'},
+  {module:'Регулярный менеджмент', text:'Как устроено управление командой?', opts:['Есть ритм планерок, 1:1, отчётов','Встречи есть, но нерегулярно','Управление ситуативное'], key:'mgmt'},
+  {module:'Обучение', text:'Как организовано обучение сотрудников?', opts:['Есть учебный маршрут и аттестация','Обучаем, но без системы','Обучение эпизодическое'], key:'train'},
+  {module:'HR-аналитика', text:'Как измеряете эффективность HR-процессов?', opts:['Есть дашборды и регулярная отчётность','Считаем отдельные метрики','Не измеряем системно'], key:'an'},
+];
+
+const modules = [
+  {id:'diag', name:'HR-диагностика', desc:'Карта зрелости, маршрут, приоритеты', icon:'ti-stethoscope', arts:7, price:'входит'},
+  {id:'org', name:'Оргструктура и роли', desc:'Схема, RACI, должностные профили', icon:'ti-sitemap', arts:8, price:'18 000 ₽', href:'module-org.html'},
+  {id:'hire', name:'Подбор и найм', desc:'Воронка, профиль кандидата, оффер', icon:'ti-search', arts:9, price:'20 000 ₽', href:'module-hire.html'},
+  {id:'adapt', name:'Адаптация 30/60/90', desc:'Маршрут, чек-листы, контрольные точки', icon:'ti-rocket', arts:9, price:'18 000 ₽', href:'module-adapt.html'},
+  {id:'ment', name:'Наставничество', desc:'Регламент, план, журнал встреч', icon:'ti-users', arts:9, price:'16 000 ₽'},
+  {id:'kpi', name:'KPI и мотивация', desc:'Матрица, калькулятор премии', icon:'ti-target', arts:9, price:'22 000 ₽', href:'module-kpi.html'},
+  {id:'mgmt', name:'Регулярный менеджмент', desc:'Планерки, 1:1, отчёты', icon:'ti-calendar-event', arts:9, price:'16 000 ₽', href:'module-mgmt.html'},
+  {id:'train', name:'Обучение и аттестация', desc:'Учебный маршрут, тесты, протокол', icon:'ti-school', arts:9, price:'18 000 ₽'},
+  {id:'an', name:'HR-аналитика', desc:'Дашборды подбора, адаптации, KPI', icon:'ti-chart-bar', arts:9, price:'20 000 ₽', href:'module-analytics.html'},
+  {id:'res', name:'Кадровый резерв', desc:'Грейды, ИПР, компетенции, вилки', icon:'ti-award', arts:11, price:'24 000 ₽'},
+  {id:'cult', name:'Культура и вовлечённость', desc:'eNPS, опросы, коммуникации', icon:'ti-heart', arts:9, price:'18 000 ₽'},
+  {id:'tech', name:'HRTech-навигация', desc:'ТЗ, shortlist, scoring, RFP', icon:'ti-device-laptop', arts:9, price:'26 000 ₽'},
+  {id:'doc', name:'HR-документооборот', desc:'Аудит, риски, КЭДО, compliance', icon:'ti-file-check', arts:8, price:'16 000 ₽'},
+];
+
+let qi=0, answers={};
+
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('visible'));document.getElementById(id).classList.add('visible');window.scrollTo(0,0);}
+
+function startDiag(){qi=0;answers={};show('s-diag');renderQ();}
+hiveTrackView('Страница диагностики');
+
+function renderQ(){
+  const q=questions[qi];
+  const pct=Math.round((qi/questions.length)*100);
+  document.getElementById('q-fill').style.width=pct+'%';
+  document.getElementById('q-counter').textContent=(qi+1)+' / '+questions.length;
+  document.getElementById('q-module').textContent=q.module;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('q-back').disabled=(qi===0);
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML=q.opts.map((o,i)=>'<button class="q-opt'+(answers[q.key]===i?' selected':'')+'" onclick="selectOpt('+i+')">'+o+'</button>').join('');
+  document.getElementById('q-next').disabled=(answers[q.key]===undefined);
+  document.getElementById('q-next').textContent=(qi===questions.length-1)?'Показать результат →':'Далее →';
+}
+
+function selectOpt(i){answers[questions[qi].key]=i;renderQ();}
+
+function nextQ(){
+  if(answers[questions[qi].key]===undefined)return;
+  if(qi<questions.length-1){qi++;renderQ();}
+  else{buildCabinet();}
+}
+
+function prevQ(){if(qi>0){qi--;renderQ();}}
+
+function buildCabinet(){
+  const statuses={};
+  statuses['diag']='active';
+  ['org','hire','adapt','kpi','mgmt','train','an'].forEach(key=>{
+    const a=answers[key];
+    statuses[key]=(a===0)?'active':'priority';
+  });
+  statuses['ment']=(statuses['adapt']==='active')?'priority':'synergy';
+  statuses['res']=(statuses['kpi']==='active'&&statuses['train']==='active')?'priority':'synergy';
+  statuses['cult']=(statuses['an']==='active')?'priority':'synergy';
+  statuses['tech']=(statuses['org']==='active')?'priority':'synergy';
+  statuses['doc']='synergy';
+
+  const active=Object.values(statuses).filter(s=>s==='active').length;
+  const priority=Object.values(statuses).filter(s=>s==='priority').length;
+  const synergy=Object.values(statuses).filter(s=>s==='synergy').length;
+  document.getElementById('st-active').textContent=active;
+  document.getElementById('st-priority').textContent=priority;
+  document.getElementById('st-synergy').textContent=synergy;
+
+  const sizeLabels=['до 30 чел.','30–100 чел.','100–300 чел.','300+ чел.'];
+  document.getElementById('cab-sub').textContent='Компания '+sizeLabels[answers['size']||0]+' · карта на основе 8 ответов';
+
+  const grid=document.getElementById('mod-grid');
+  const stLabel={active:'Работает',priority:'Запустить',synergy:'Усилит систему'};
+  const bClass={active:'b-active',priority:'b-priority',synergy:'b-synergy'};
+
+  grid.innerHTML=modules.map(m=>{
+    const st=statuses[m.id]||'synergy';
+    const hint=(st==='synergy')?'<div class="mod-hint">⛓ Работает сильнее в связке</div>':'';
+    const clickHandler=m.href?"location.href='"+m.href+"'":"alert('Страница модуля «"+m.name+"» скоро будет готова')";
+    return '<div class="mod st-'+st+'" onclick="'+clickHandler+'">'+
+      '<div class="mod-top"><i class="ti '+m.icon+' mod-icon"></i><span class="mod-badge '+bClass[st]+'">'+stLabel[st]+'</span></div>'+
+      '<div class="mod-name">'+m.name+'</div><div class="mod-desc">'+m.desc+'</div>'+hint+
+      '<div class="mod-foot"><span>'+m.arts+' артефактов</span><span class="mod-price'+(st==='active'?' free':'')+'">'+(st==='active'?'получен':m.price)+'</span></div>'+
+    '</div>';
+  }).join('');
+
+  const chainIds=['diag','org','hire','adapt','ment','kpi','mgmt','train','an'];
+  const chainNames={diag:'Диагностика',org:'Оргструктура',hire:'Подбор',adapt:'Адаптация',ment:'Наставничество',kpi:'KPI',mgmt:'Менеджмент',train:'Обучение',an:'Аналитика'};
+  document.getElementById('chain').innerHTML=chainIds.map((id,i)=>'<span class="cn'+(statuses[id]==='active'?' on':'')+'">'+chainNames[id]+'</span>'+(i<chainIds.length-1?'<span class="cn-arr">→</span>':'')).join('');
+
+  hiveSend({
+    type:'diagnostic',
+    module:'Диагностика пройдена',
+    name:'',
+    contact:'',
+    comment:'Размер: '+sizeLabels[answers['size']||0]+' · работает: '+active+' · приоритет: '+priority+' · усилит: '+synergy,
+    referrer: document.referrer || 'прямой заход'
+  });
+
+  show('s-cabinet');
+}
+
+function resetDiag(){show('s-intro');}
+</script>
+</body>
+</html>
