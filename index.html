@@ -230,9 +230,9 @@
       <span class="brand-name">Hive</span>
     </div>
     <div class="nav-links">
-      <a href="#decision-review">Decision Review</a>
       <a href="#modules">Модули</a>
       <a href="#how">Как работает</a>
+      <a href="#decision-review">Разбор ситуации</a>
       <a href="#diagnostics">Диагностика</a>
     </div>
     <button class="nav-cta" onclick="location.href='diagnostics.html'">Диагностика</button>
@@ -246,7 +246,7 @@
     <h1>HR-процессы, собранные <em>как улей</em> — модуль за модулем</h1>
     <p class="hero-sub">13 связанных блоков: от подбора и адаптации до KPI и аналитики. Берите один модуль или собирайте систему целиком — каждый элемент работает сам и сильнее в связке с другими.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="document.getElementById('decision-review').scrollIntoView({behavior:'smooth'})">Получить экспертное заключение</button>
+      <button class="btn-primary" onclick="location.href='diagnostics.html'">Пройти диагностику</button>
       <button class="btn-outline" onclick="document.getElementById('modules').scrollIntoView({behavior:'smooth'})">Смотреть модули</button>
     </div>
     <div class="hero-stats">
@@ -256,61 +256,6 @@
     </div>
   </div>
 
-  <section id="decision-review">
-    <div class="section-eyebrow">Decision Review</div>
-    <h2>Не каждое HR-решение стоит внедрять.</h2>
-    <p class="section-lead">Перед тем как нанимать HR, внедрять KPI, покупать LMS или перестраивать адаптацию, получите независимое экспертное заключение.</p>
-
-    <div class="decision-path">
-      <div class="decision-step">
-        <span class="path-node">Запрос</span>
-        <span class="decision-arrow">↓</span>
-      </div>
-      <div class="decision-step">
-        <span class="path-node">Интервью</span>
-        <span class="decision-arrow">↓</span>
-      </div>
-      <div class="decision-step">
-        <span class="path-node">Анализ</span>
-        <span class="decision-arrow">↓</span>
-      </div>
-      <div class="decision-step">
-        <span class="path-node">Экспертное заключение</span>
-        <span class="decision-arrow">↓</span>
-      </div>
-      <div class="decision-step">
-        <span class="path-node">Вердикт</span>
-        <span class="decision-arrow">↓</span>
-      </div>
-      <div class="decision-step">
-        <span class="path-node">При необходимости сопровождение</span>
-      </div>
-    </div>
-
-    <div class="hero-actions decision-actions">
-      <button class="btn-primary" onclick="hiveOpenDecisionReview()">Получить экспертное заключение</button>
-      <button class="btn-outline" onclick="document.getElementById('decision-example').scrollIntoView({behavior:'smooth'})">Посмотреть пример заключения</button>
-    </div>
-
-    <div class="example-card" id="decision-example">
-      <div class="example-card-head">
-        <span class="example-label">Пример заключения</span>
-        <span class="example-verdict">Внедрять выборочно</span>
-      </div>
-      <div class="example-row">
-        <div class="example-key">Запрос</div>
-        <div class="example-val">Компания 45 человек, e-commerce. Руководитель хочет внедрить KPI для отдела продаж и нанять HR-менеджера.</div>
-      </div>
-      <div class="example-row">
-        <div class="example-key">Вердикт</div>
-        <div class="example-val">KPI для продаж — да, но после фиксации ролей и базового ритма 1:1. HR-менеджера нанимать рано: сначала закрыть процессы подбора и адаптации через модульную систему.</div>
-      </div>
-      <div class="example-row">
-        <div class="example-key">Рекомендуемый первый шаг</div>
-        <div class="example-val">Модуль «KPI и мотивация» + Decision Review сопровождение на этапе внедрения.</div>
-      </div>
-    </div>
-  </section>
 </div>
 
 <div class="wrap" id="modules">
@@ -377,6 +322,61 @@
       <div class="pain-card good">
         <div class="pain-head">С Hive</div>
         <p>Каждый процесс описан и измерим. Новый сотрудник проходит понятный маршрут. Премия считается по формуле. Видно, какой блок системы нужно усилить следующим.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="decision-review">
+    <div class="section-eyebrow">Разбор ситуации</div>
+    <h2>Не знаете с чего начать — или сомневаетесь, нужно ли вообще?</h2>
+    <p class="section-lead">Иногда задача не в том чтобы купить модуль, а в том чтобы понять — стоит ли вообще что-то менять прямо сейчас. Мы разберём вашу ситуацию и скажем честно.</p>
+
+    <div class="split" style="margin-bottom:40px;">
+      <div>
+        <div class="decision-path">
+          <div class="decision-step">
+            <span class="path-node">Вы описываете ситуацию</span>
+            <span class="decision-arrow">↓</span>
+          </div>
+          <div class="decision-step">
+            <span class="path-node">Короткое интервью — 30–40 минут</span>
+            <span class="decision-arrow">↓</span>
+          </div>
+          <div class="decision-step">
+            <span class="path-node">Мы анализируем и готовим ответ</span>
+            <span class="decision-arrow">↓</span>
+          </div>
+          <div class="decision-step">
+            <span class="path-node">Получаете письменное заключение</span>
+            <span class="decision-arrow">↓</span>
+          </div>
+          <div class="decision-step">
+            <span class="path-node">Ясность: что делать первым шагом</span>
+          </div>
+        </div>
+        <div class="hero-actions decision-actions" style="margin-top:24px;">
+          <button class="btn-primary" onclick="hiveOpenDecisionReview()">Разобрать мою ситуацию</button>
+          <button class="btn-outline" onclick="document.getElementById('decision-example').scrollIntoView({behavior:'smooth'})">Посмотреть пример</button>
+        </div>
+      </div>
+
+      <div class="example-card" id="decision-example">
+        <div class="example-card-head">
+          <span class="example-label">Пример разбора</span>
+          <span class="example-verdict">Внедрять выборочно</span>
+        </div>
+        <div class="example-row">
+          <div class="example-key">Ситуация</div>
+          <div class="example-val">Компания 45 человек, e-commerce. Руководитель хочет внедрить KPI для отдела продаж и нанять HR-менеджера.</div>
+        </div>
+        <div class="example-row">
+          <div class="example-key">Наш ответ</div>
+          <div class="example-val">KPI для продаж — да, но сначала нужно зафиксировать роли и настроить базовый ритм 1:1. HR-менеджера нанимать рано: сначала закрыть процессы подбора и адаптации через готовые модули.</div>
+        </div>
+        <div class="example-row">
+          <div class="example-key">Первый шаг</div>
+          <div class="example-val">Модуль «KPI и мотивация» — без найма HR и без лишних затрат.</div>
+        </div>
       </div>
     </div>
   </section>
