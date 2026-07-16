@@ -28,6 +28,7 @@
   .brand-mark{width:26px;height:26px;}
   .brand-name{font-size:17px;font-weight:600;line-height:1.15;}
   .brand-name .sub{display:block;font-size:8px;font-weight:600;letter-spacing:0.14em;color:var(--text-faint);margin-top:1px;}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;}
   a.back{color:var(--text-faint);text-decoration:none;font-size:13px;margin-left:auto;}
   a.back:hover{color:var(--honey);}
 
@@ -136,8 +137,10 @@
 
 <div class="wrap">
   <nav>
-    <svg class="brand-mark" viewBox="0 0 32 32" fill="none"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#F4C969" stroke-width="1.4"/><polygon points="16,8 22,11.5 22,20.5 16,24 10,20.5 10,11.5" fill="#F4C969"/><polygon points="16,11 19,12.7 19,19.3 16,21 13,19.3 13,12.7" fill="#1B1812"/></svg>
-    <span class="brand-name">Hive<span class="sub">SOLUTIONS</span></span>
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#F4C969" stroke-width="1.4"/><polygon points="16,8 22,11.5 22,20.5 16,24 10,20.5 10,11.5" fill="#F4C969"/><polygon points="16,11 19,12.7 19,19.3 16,21 13,19.3 13,12.7" fill="#1B1812"/></svg>
+      <span class="brand-name">Hive<span class="sub">SOLUTIONS</span></span>
+    </a>
     <a class="back" href="index.html">← на главную</a>
   </nav>
 
@@ -220,18 +223,18 @@ const questions = [
 
 const modules = [
   {id:'diag', name:'HR-диагностика', desc:'Карта зрелости, маршрут, приоритеты', icon:'ti-stethoscope', arts:7, price:'входит'},
-  {id:'org', name:'Оргструктура и роли', desc:'Схема, RACI, должностные профили', icon:'ti-sitemap', arts:8, price:'18 000 ₽', href:'module-org.html'},
-  {id:'hire', name:'Подбор и найм', desc:'Воронка, профиль кандидата, оффер', icon:'ti-search', arts:9, price:'20 000 ₽', href:'module-hire.html'},
-  {id:'adapt', name:'Адаптация 30/60/90', desc:'Маршрут, чек-листы, контрольные точки', icon:'ti-rocket', arts:9, price:'18 000 ₽', href:'module-adapt.html'},
-  {id:'ment', name:'Наставничество', desc:'Регламент, план, журнал встреч', icon:'ti-users', arts:9, price:'16 000 ₽'},
-  {id:'kpi', name:'KPI и мотивация', desc:'Матрица, калькулятор премии', icon:'ti-target', arts:9, price:'22 000 ₽', href:'module-kpi.html'},
-  {id:'mgmt', name:'Регулярный менеджмент', desc:'Планерки, 1:1, отчёты', icon:'ti-calendar-event', arts:9, price:'16 000 ₽', href:'module-mgmt.html'},
-  {id:'train', name:'Обучение и аттестация', desc:'Учебный маршрут, тесты, протокол', icon:'ti-school', arts:9, price:'18 000 ₽'},
-  {id:'an', name:'HR-аналитика', desc:'Дашборды подбора, адаптации, KPI', icon:'ti-chart-bar', arts:9, price:'20 000 ₽', href:'module-analytics.html'},
-  {id:'res', name:'Кадровый резерв', desc:'Грейды, ИПР, компетенции, вилки', icon:'ti-award', arts:11, price:'24 000 ₽'},
-  {id:'cult', name:'Культура и вовлечённость', desc:'eNPS, опросы, коммуникации', icon:'ti-heart', arts:9, price:'18 000 ₽'},
-  {id:'tech', name:'HRTech-навигация', desc:'ТЗ, shortlist, scoring, RFP', icon:'ti-device-laptop', arts:9, price:'26 000 ₽'},
-  {id:'doc', name:'HR-документооборот', desc:'Аудит, риски, КЭДО, compliance', icon:'ti-file-check', arts:8, price:'16 000 ₽'},
+  {id:'org', name:'Оргструктура и роли', desc:'Схема, RACI, должностные профили', icon:'ti-sitemap', arts:8, price:'68 000 ₽', href:'module-org.html'},
+  {id:'hire', name:'Подбор и найм', desc:'Воронка, профиль кандидата, оффер', icon:'ti-search', arts:9, price:'70 000 ₽', href:'module-hire.html'},
+  {id:'adapt', name:'Адаптация 30/60/90', desc:'Маршрут, чек-листы, контрольные точки', icon:'ti-rocket', arts:9, price:'68 000 ₽', href:'module-adapt.html'},
+  {id:'ment', name:'Наставничество', desc:'Регламент, план, журнал встреч', icon:'ti-users', arts:9, price:'66 000 ₽'},
+  {id:'kpi', name:'KPI и мотивация', desc:'Матрица, калькулятор премии', icon:'ti-target', arts:9, price:'72 000 ₽', href:'module-kpi.html'},
+  {id:'mgmt', name:'Регулярный менеджмент', desc:'Планерки, 1:1, отчёты', icon:'ti-calendar-event', arts:9, price:'66 000 ₽', href:'module-mgmt.html'},
+  {id:'train', name:'Обучение и аттестация', desc:'Учебный маршрут, тесты, протокол', icon:'ti-school', arts:9, price:'68 000 ₽'},
+  {id:'an', name:'HR-аналитика', desc:'Дашборды подбора, адаптации, KPI', icon:'ti-chart-bar', arts:9, price:'70 000 ₽', href:'module-analytics.html'},
+  {id:'res', name:'Кадровый резерв', desc:'Грейды, ИПР, компетенции, вилки', icon:'ti-award', arts:11, price:'74 000 ₽'},
+  {id:'cult', name:'Культура и вовлечённость', desc:'eNPS, опросы, коммуникации', icon:'ti-heart', arts:9, price:'68 000 ₽'},
+  {id:'tech', name:'HRTech-навигация', desc:'ТЗ, shortlist, scoring, RFP', icon:'ti-device-laptop', arts:9, price:'76 000 ₽'},
+  {id:'doc', name:'HR-документооборот', desc:'Аудит, риски, КЭДО, compliance', icon:'ti-file-check', arts:8, price:'66 000 ₽'},
 ];
 
 let qi=0, answers={};
