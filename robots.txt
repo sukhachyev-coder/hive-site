@@ -1,0 +1,5 @@
+User-agent: *
+
+Allow: /
+
+Sitemap: https://hive-site-six.vercel.app/sitemap.xml
