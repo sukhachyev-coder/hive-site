@@ -5,7 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hive — модульная HR-система для бизнеса</title>
 <meta name="description" content="Hive — конструктор HR-процессов из 6 модулей. Диагностика, подбор приоритетов и готовые к внедрению артефакты.">
+
+<!-- Favicons -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#1B1812">
+
+<!-- Open Graph / Telegram / VK / MAX / email preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hive">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Hive — модульная HR-система для бизнеса">
+<meta property="og:description" content="Hive — конструктор HR-процессов из 6 модулей. Диагностика, подбор приоритетов и готовые к внедрению артефакты.">
+<meta property="og:url" content="https://hive-site-six.vercel.app/">
+<meta property="og:image" content="https://hive-site-six.vercel.app/images/og-image.png">
+<meta property="og:image:secure_url" content="https://hive-site-six.vercel.app/images/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hive — модульная HR-система для бизнеса">
+
+<!-- Twitter Card (fallback) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hive — модульная HR-система для бизнеса">
+<meta name="twitter:description" content="Hive — конструктор HR-процессов из 6 модулей. Диагностика, подбор приоритетов и готовые к внедрению артефакты.">
+<meta name="twitter:image" content="https://hive-site-six.vercel.app/images/og-image.png">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
 <style>
   :root{
@@ -55,7 +83,8 @@
   }
   .brand{display:flex;align-items:center;gap:10px;}
   .brand-mark{width:30px;height:30px;flex-shrink:0;}
-  .brand-name{font-size:18px;font-weight:600;letter-spacing:-0.01em;}
+  .brand-name{font-size:18px;font-weight:600;letter-spacing:-0.01em;line-height:1.15;}
+  .brand-name .sub{display:block;font-size:9px;font-weight:600;letter-spacing:0.14em;color:var(--text-faint);margin-top:1px;}
   .nav-links{display:flex;gap:32px;align-items:center;}
   .nav-links a{color:var(--text-dim);text-decoration:none;font-size:14px;transition:color 0.15s;}
   .nav-links a:hover{color:var(--honey);}
@@ -236,7 +265,7 @@
         <polygon points="16,8 22,11.5 22,20.5 16,24 10,20.5 10,11.5" fill="#F4C969"/>
         <polygon points="16,11 19,12.7 19,19.3 16,21 13,19.3 13,12.7" fill="#1B1812"/>
       </svg>
-      <span class="brand-name">Hive</span>
+      <span class="brand-name">Hive<span class="sub">SOLUTIONS</span></span>
     </div>
     <div class="nav-links">
       <a href="#modules">Модули</a>
