@@ -41,6 +41,8 @@ function hiveCloseForm() {
   document.getElementById('hive-name').value = '';
   document.getElementById('hive-contact').value = '';
   document.getElementById('hive-comment').value = '';
+  const consent = document.getElementById('hive-consent');
+  if (consent) consent.checked = false;
 }
 
 function hiveSubmitForm(ev) {
