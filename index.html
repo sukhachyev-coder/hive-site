@@ -35,6 +35,8 @@
 <meta name="twitter:image" content="https://hive-site-six.vercel.app/images/og-image.png">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
+<!-- Новый файл: стили для выбора нескольких решений (карточки + панель "Ваш комплект") -->
+<link rel="stylesheet" href="solutions-selector.css">
 <style>
   :root{
     --bg: #1B1812;
@@ -303,41 +305,90 @@
     <p class="section-lead">Можно начать с одного блока под конкретную задачу. Система подскажет, что усилит результат дальше.</p>
 
     <div class="hive-grid">
-      <div class="cell" onclick="location.href='module-kpi.html'">
+      <div class="cell"
+           data-solution-id="kpi"
+           data-name="KPI и мотивация"
+           data-price="72000"
+           role="button"
+           tabindex="0"
+           aria-pressed="false">
+        <!-- Индикатор выбора: пустой круг → золотая галочка при выборе -->
+        <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-icon"><i class="ti ti-target"></i></div>
         <div class="cell-name">KPI и мотивация</div>
         <div class="cell-desc">Матрица KPI, формула и калькулятор премии, регламент пересмотра</div>
         <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">72 000 ₽</span></div>
+        <a class="cell-more" href="module-kpi.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
-      <div class="cell" onclick="location.href='module-adapt.html'">
+      <div class="cell"
+           data-solution-id="adapt"
+           data-name="Адаптация 30/60/90"
+           data-price="68000"
+           role="button"
+           tabindex="0"
+           aria-pressed="false">
+        <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-icon"><i class="ti ti-rocket"></i></div>
         <div class="cell-name">Адаптация 30/60/90</div>
         <div class="cell-desc">Маршрут адаптации, чек-листы, контрольные точки для руководителя</div>
         <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">68 000 ₽</span></div>
+        <a class="cell-more" href="module-adapt.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
-      <div class="cell" onclick="location.href='module-hire.html'">
+      <div class="cell"
+           data-solution-id="hire"
+           data-name="Подбор и найм"
+           data-price="70000"
+           role="button"
+           tabindex="0"
+           aria-pressed="false">
+        <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-icon"><i class="ti ti-search"></i></div>
         <div class="cell-name">Подбор и найм</div>
         <div class="cell-desc">Воронка найма, профиль кандидата, скрипты интервью, оффер</div>
         <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">70 000 ₽</span></div>
+        <a class="cell-more" href="module-hire.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
-      <div class="cell" onclick="location.href='module-org.html'">
+      <div class="cell"
+           data-solution-id="org"
+           data-name="Оргструктура и роли"
+           data-price="68000"
+           role="button"
+           tabindex="0"
+           aria-pressed="false">
+        <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-icon"><i class="ti ti-sitemap"></i></div>
         <div class="cell-name">Оргструктура и роли</div>
         <div class="cell-desc">Схема структуры, RACI, должностные профили</div>
         <div class="cell-foot"><span>8 артефактов</span><span class="cell-price">68 000 ₽</span></div>
+        <a class="cell-more" href="module-org.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
-      <div class="cell" onclick="location.href='module-mgmt.html'">
+      <div class="cell"
+           data-solution-id="mgmt"
+           data-name="Регулярный менеджмент"
+           data-price="66000"
+           role="button"
+           tabindex="0"
+           aria-pressed="false">
+        <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-icon"><i class="ti ti-calendar-event"></i></div>
         <div class="cell-name">Регулярный менеджмент</div>
         <div class="cell-desc">Ритм планерок, 1:1 встречи, отчётность руководителя</div>
         <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">66 000 ₽</span></div>
+        <a class="cell-more" href="module-mgmt.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
-      <div class="cell" onclick="location.href='module-analytics.html'">
+      <div class="cell"
+           data-solution-id="analytics"
+           data-name="HR-аналитика"
+           data-price="70000"
+           role="button"
+           tabindex="0"
+           aria-pressed="false">
+        <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-icon"><i class="ti ti-chart-bar"></i></div>
         <div class="cell-name">HR-аналитика</div>
         <div class="cell-desc">Дашборды подбора, адаптации, KPI и текучести</div>
         <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">70 000 ₽</span></div>
+        <a class="cell-more" href="module-analytics.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
     </div>
 
@@ -440,6 +491,25 @@
   </div>
 </footer>
 
+<!-- ============================================================
+     ПАНЕЛЬ "ВАШ КОМПЛЕКТ"
+     Появляется снизу страницы, когда выбрана хотя бы одна карточка
+     решения, и пропадает, если выбор снят полностью.
+     Видимость и содержимое (счётчик и сумма) управляются из
+     solutions-selector.js — здесь только статическая разметка.
+     ============================================================ -->
+<div class="hive-kit-panel" id="hive-kit-panel">
+  <div class="hive-kit-panel-inner">
+    <div class="hive-kit-info">
+      <div class="hive-kit-title">Ваш комплект</div>
+      <div class="hive-kit-meta">
+        <span id="hive-kit-count">0 решений</span> · <strong id="hive-kit-total">0 ₽</strong>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="handleGetOfferClick()">Получить предложение</button>
+  </div>
+</div>
+
 <div class="hive-overlay" id="hive-modal-overlay">
   <div class="hive-modal">
     <button class="hive-close" onclick="hiveCloseForm()" aria-label="Закрыть">&times;</button>
@@ -472,6 +542,8 @@
 </div>
 
 <script src="hive-lead-capture.js"></script>
+<!-- Новый файл: логика выбора нескольких решений (комплект) -->
+<script src="solutions-selector.js"></script>
 <script>
 function hiveOpenDecisionReview() {
   hiveOpenForm('Decision Review', 'start');

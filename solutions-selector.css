@@ -1,0 +1,207 @@
+/* ============================================================
+   HIVE — ВЫБОР НЕСКОЛЬКИХ РЕШЕНИЙ (ЭТАП 1–2)
+   ------------------------------------------------------------
+   Этот файл добавляет ТОЛЬКО новую функциональность:
+     - визуальное состояние "выбрано" для карточек .cell
+     - индикатор выбора (кружок → золотая галочка)
+     - ссылку "Подробнее" внутри карточки
+     - фиксированную нижнюю панель "Ваш комплект"
+
+   Ничего из существующих стилей index.html не удаляется и не
+   переопределяется по смыслу — используются те же самые CSS-
+   переменные темы (--honey, --bg-card, --bg-card-hover, --line,
+   --line-strong, --text, --text-dim, --text-faint), которые уже
+   объявлены в :root в index.html. Поэтому палитра, типографика
+   и общая композиция страницы не меняются.
+   ============================================================ */
+
+/* ---------- Карточка становится доступной для выбора ---------- */
+
+/* Чуть уточняем длительность transition именно для эффекта выбора
+   (200–300 мс по ТЗ). Свойства те же самые, что и в исходном
+   .cell (border-color, background, transform) — только тайминг. */
+.cell {
+  transition: border-color 250ms ease,
+              background-color 250ms ease,
+              transform 150ms ease;
+  /* карточка и раньше была кликабельной (cursor:pointer в исходном
+     CSS), теперь дополнительно ведёт себя как переключатель */
+  user-select: none;
+}
+
+/* Состояние "выбрано": фирменная золотая рамка + чуть более
+   светлый фон (используем уже существующий --bg-card-hover,
+   а не придумываем новый цвет) */
+.cell.is-selected {
+  border-color: var(--honey);
+  background: var(--bg-card-hover);
+}
+
+/* Доступность: видимый фокус при навигации с клавиатуры,
+   т.к. карточка теперь работает как настоящий интерактивный
+   элемент (role="button"), а не просто ссылка через onclick */
+.cell:focus-visible {
+  outline: 2px solid var(--honey);
+  outline-offset: 2px;
+}
+
+/* ---------- Индикатор выбора (замена "декоративного квадрата") ---------- */
+/* Небольшой круглый селектор в верхнем правом углу карточки.
+   По умолчанию — просто контур. При выборе — золотая заливка
+   и галочка. Сам индикатор клики не перехватывает (pointer-events:
+   none) — обрабатывает клик вся карточка целиком, согласно ТЗ. */
+.cell-select-indicator {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 250ms ease,
+              border-color 250ms ease,
+              transform 250ms ease;
+  pointer-events: none;
+}
+
+.cell-select-indicator i {
+  font-size: 12px;
+  color: #241B05; /* тот же тёмный цвет, что и текст на золотой кнопке btn-primary */
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.cell.is-selected .cell-select-indicator {
+  background: var(--honey);
+  border-color: var(--honey);
+  transform: scale(1.05);
+}
+
+.cell.is-selected .cell-select-indicator i {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---------- Ссылка "Подробнее" (сохраняем переход на страницу модуля) ---------- */
+/* Раньше клик по всей карточке вёл на module-*.html. Теперь клик
+   по карточке выбирает решение, а переход на страницу модуля
+   доступен через отдельную маленькую ссылку — существующий
+   функционал не теряется. Стиль — в духе уже существующего
+   .foot-link (тот же приглушённый цвет и золото на hover). */
+.cell-more {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-faint);
+  text-decoration: none;
+  transition: color 0.15s;
+  position: relative;
+  z-index: 1; /* чтобы ссылка была кликабельна поверх карточки */
+}
+
+.cell-more:hover {
+  color: var(--honey);
+}
+
+/* ============================================================
+   ЭТАП 2 — ПАНЕЛЬ "ВАШ КОМПЛЕКТ"
+   ============================================================ */
+
+/* Когда панель видна — не даём ей перекрывать футер на мобильных
+   и десктопе, добавляя нижний отступ странице (класс вешается
+   и снимается из JS вместе с самой панелью) */
+body.has-kit-panel {
+  padding-bottom: 88px;
+}
+
+.hive-kit-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 900;
+  background: var(--bg-card);
+  border-top: 1px solid var(--line-strong);
+  padding: 16px 24px;
+
+  /* спрятана по умолчанию, задвинута вниз за пределы экрана */
+  transform: translateY(110%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 280ms ease, opacity 280ms ease;
+}
+
+.hive-kit-panel.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hive-kit-panel-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.hive-kit-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hive-kit-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hive-kit-meta {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.hive-kit-meta strong {
+  color: var(--honey);
+  font-weight: 600;
+}
+
+.hive-kit-panel .btn-primary {
+  white-space: nowrap;
+}
+
+/* ---------- Адаптивность панели на узких экранах ---------- */
+@media (max-width: 680px) {
+  body.has-kit-panel {
+    padding-bottom: 132px;
+  }
+  .hive-kit-panel {
+    padding: 14px 16px;
+  }
+  .hive-kit-panel-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .hive-kit-panel .btn-primary {
+    width: 100%;
+  }
+}
+
+/* Уважаем настройку "меньше анимаций" — как и остальной сайт */
+@media (prefers-reduced-motion: reduce) {
+  .cell,
+  .cell-select-indicator,
+  .cell-select-indicator i,
+  .hive-kit-panel {
+    transition: none !important;
+  }
+}
