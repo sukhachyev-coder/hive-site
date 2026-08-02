@@ -199,7 +199,7 @@ function handleGetOfferClick() {
 
     const modalTitle = document.getElementById('hive-modal-title');
     if (modalTitle) {
-      modalTitle.textContent = 'Получить предложение по комплекту';
+      modalTitle.textContent = 'Получить индивидуальную конфигурацию';
     }
 
     const commentField = document.getElementById('hive-comment');

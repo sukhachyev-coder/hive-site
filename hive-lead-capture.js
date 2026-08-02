@@ -25,17 +25,20 @@ function hiveTrackView(moduleName) {
 }
 
 function hiveOpenForm(moduleName, intent) {
-  document.getElementById('hive-modal-title').textContent = intent === 'question'
-    ? 'Вопрос по модулю «' + moduleName + '»'
-    : 'Запустить модуль «' + moduleName + '»';
+  const titles = {
+    question: 'Обсудить задачи бизнеса: «' + moduleName + '»',
+    consult: 'Записаться на бесплатную консультацию'
+  };
+  document.getElementById('hive-modal-title').textContent =
+    titles[intent] || ('Получить решение «' + moduleName + '» для своей компании');
   document.getElementById('hive-modal-intent').value = intent;
   document.getElementById('hive-modal-module').value = moduleName;
-  document.getElementById('hive-modal-overlay').style.display = 'flex';
+  document.getElementById('hive-modal-overlay').classList.add('is-open');
   document.getElementById('hive-name').focus();
 }
 
 function hiveCloseForm() {
-  document.getElementById('hive-modal-overlay').style.display = 'none';
+  document.getElementById('hive-modal-overlay').classList.remove('is-open');
   document.getElementById('hive-form-success').style.display = 'none';
   document.getElementById('hive-form-fields').style.display = 'block';
   document.getElementById('hive-name').value = '';
@@ -54,9 +57,10 @@ function hiveSubmitForm(ev) {
   const moduleName = document.getElementById('hive-modal-module').value;
   const intent = document.getElementById('hive-modal-intent').value;
 
+  const intentLabels = { question: ' (вопрос)', consult: ' (консультация)' };
   hiveSend({
     type: 'lead',
-    module: moduleName + (intent === 'question' ? ' (вопрос)' : ' (запуск)'),
+    module: moduleName + (intentLabels[intent] || ' (запуск)'),
     name: name,
     contact: contact,
     comment: comment,

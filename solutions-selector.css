@@ -240,6 +240,8 @@ body.has-kit-panel {
   }
   .hive-kit-panel .btn-primary {
     width: 100%;
+    white-space: normal;
+    line-height: 1.3;
   }
 }
 

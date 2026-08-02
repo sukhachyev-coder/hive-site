@@ -1,0 +1,237 @@
+/* ============================================================
+   HIVE — MOTION LAYER (общий слой микроанимаций и hover-эффектов)
+   ------------------------------------------------------------
+   Этот файл подключается на ВСЕХ страницах сайта поверх уже
+   существующих стилей и НИЧЕГО не переопределяет по смыслу:
+   фирменные цвета, типографика и раскладка остаются прежними —
+   используются те же самые CSS-переменные (--honey, --bg-card,
+   --line, --text и т.д.), которые уже объявлены в :root каждой
+   страницы.
+
+   Задача файла — только один слой поверх: более плавные переходы,
+   аккуратные тени, hover-эффекты и мягкое появление секций при
+   скролле. Один общий файл вместо дублирования одинаковых правил
+   в <style> каждой из 9 HTML-страниц.
+   ============================================================ */
+
+/* ---------- Базовые премиальные транзишены для кнопок ---------- */
+/* Не меняем цвета/паддинги — только добавляем лёгкий подъём,
+   мягкую тень в цвет бренда и более "пружинистый" тайминг */
+.btn-primary,
+.btn-outline,
+.nav-cta,
+.q-next-btn,
+.q-back-btn {
+  transition: background-color 200ms ease,
+              border-color 200ms ease,
+              color 200ms ease,
+              transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 200ms ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(244, 201, 105, 0.28);
+}
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 8px rgba(244, 201, 105, 0.2);
+}
+
+.btn-outline:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+.btn-outline:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.nav-cta:hover {
+  transform: translateY(-1px);
+}
+
+/* ---------- Кнопки со "световым" hover-скольжением ---------- */
+/* Тонкий диагональный блик пробегает по кнопке при наведении —
+   частый приём в современных интерфейсах, не меняющий ни цвет,
+   ни форму самой кнопки. Реализовано псевдоэлементом, поэтому
+   не требует изменений разметки. */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 550ms ease;
+  pointer-events: none;
+}
+.btn-primary:hover::after {
+  left: 130%;
+}
+
+/* ---------- Карточки: более выразительный hover ---------- */
+/* .cell (модули на главной), .mod (карточки в кабинете диагностики),
+   .syn-chip, .faq-item — уже кликабельные/интерактивные элементы.
+   Добавляем мягкую тень и чуть более плавный подъём, не трогая
+   border-radius/паддинги/цвета. */
+.cell,
+.mod,
+.q-opt,
+.faq-item {
+  transition: border-color 220ms ease,
+              background-color 220ms ease,
+              transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 220ms ease;
+}
+
+.cell:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(244, 201, 105, 0.06) inset;
+}
+
+.mod:hover {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.26);
+}
+
+.faq-item:hover {
+  border-color: var(--line-strong);
+}
+
+.q-opt:hover {
+  transform: translateX(2px);
+}
+
+/* price-card / example-card / decision-path / pain-card / art-item —
+   статичные информационные карточки, но лёгкая тень на общем фоне
+   делает интерфейс объёмнее без добавления hover-состояний там,
+   где нет клика (чтобы не создавать ложных ожиданий интерактивности) */
+.price-card,
+.example-card,
+.decision-path,
+.pain-card,
+.art-item,
+.stat,
+.hive-modal,
+.q-card {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+}
+
+/* ---------- Ссылка "Подробнее" / syn-chip / foot-link — плавнее ---------- */
+.cell-more,
+.syn-chip,
+.foot-link,
+.nav-links a {
+  transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease, transform 200ms ease;
+}
+.syn-chip:hover {
+  transform: translateY(-1px);
+}
+
+/* ---------- Модальное окно заявки: плавное появление вместо мгновенного display ---------- */
+/* Управляется классом .is-open (переключается из hive-lead-capture.js),
+   а не инлайновым display, поэтому появление можно анимировать.
+   display:flex остаётся дефолтным в базовых стилях страницы —
+   видимость и клики контролируются через opacity/pointer-events,
+   что и даёт плавный переход. */
+.hive-overlay {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+.hive-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.hive-modal {
+  transform: scale(0.95) translateY(8px);
+  opacity: 0;
+  transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 220ms ease;
+}
+.hive-overlay.is-open .hive-modal {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* Успешный экран заявки — лёгкое "выпрыгивание" галочки, как и у
+   индикатора выбора карточек в solutions-selector.css, чтобы
+   микроанимации по всему сайту говорили на одном языке */
+.hive-success i {
+  transform: scale(0.5);
+  opacity: 0;
+  animation: hive-pop 380ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes hive-pop {
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ---------- Плавное появление секций при скролле ---------- */
+/* Элементы с классом .reveal стартуют слегка смещёнными и
+   прозрачными, а при пересечении вьюпорта (см. hive-motion.js)
+   получают класс .is-visible. Работает поверх обычной раскладки —
+   ничего не меняет в потоке страницы (используется только
+   transform/opacity, не влияющие на geometry других элементов). */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Лёгкий каскад для карточек внутри grid-контейнеров с .reveal-group:
+   первые несколько элементов проявляются с небольшой задержкой друг
+   за другом — недорогой, но заметный "премиальный" эффект */
+.reveal-group.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-group.is-visible > *:nth-child(2) { transition-delay: 60ms; }
+.reveal-group.is-visible > *:nth-child(3) { transition-delay: 120ms; }
+.reveal-group.is-visible > *:nth-child(4) { transition-delay: 180ms; }
+.reveal-group.is-visible > *:nth-child(5) { transition-delay: 240ms; }
+.reveal-group.is-visible > *:nth-child(6) { transition-delay: 300ms; }
+.reveal-group > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-group.is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Адаптивность: CTA-тексты стали длиннее — не даём
+   кнопкам вылезать за пределы карточки на узких экранах ---------- */
+.bc-btns {
+  flex-wrap: wrap;
+}
+@media (max-width: 480px) {
+  .bc-btns {
+    width: 100%;
+  }
+  .bc-btns .btn-primary,
+  .bc-btns .btn-outline {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+}
+
+/* ---------- Уважаем настройку "меньше анимаций" ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary, .btn-outline, .nav-cta, .cell, .mod, .q-opt, .faq-item,
+  .hive-overlay, .hive-modal, .reveal, .reveal-group > *, .syn-chip,
+  .btn-primary::after {
+    transition: none !important;
+    animation: none !important;
+  }
+  .reveal, .reveal-group > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

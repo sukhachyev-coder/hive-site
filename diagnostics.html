@@ -125,6 +125,31 @@
   .rb-title{font-size:14px;font-weight:600;margin-bottom:2px;}
   .rb-sub{font-size:12px;color:var(--text-faint);}
 
+  /* ---------- Итоговый CTA после диагностики (переиспользует
+     компонент bottom-cta/bc-* из страниц модулей) ---------- */
+  .bottom-cta{background:var(--bg-card);border:1px solid var(--line-strong);border-radius:16px;padding:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:32px;}
+  .bc-title{font-size:16px;font-weight:600;margin-bottom:2px;}
+  .bc-sub{font-size:13px;color:var(--text-faint);}
+  .bc-btns{display:flex;gap:10px;flex-wrap:wrap;}
+
+  /* ---------- Модальное окно заявки (тот же переиспользуемый
+     компонент, что и на страницах модулей / главной) ---------- */
+  .hive-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+  .hive-modal{background:var(--bg-card);border:1px solid var(--line-strong);border-radius:16px;padding:28px;max-width:420px;width:100%;position:relative;}
+  .hive-modal h3{font-size:18px;font-weight:600;margin-bottom:18px;}
+  .hive-field{margin-bottom:14px;}
+  .hive-field label{display:block;font-size:12px;color:var(--text-faint);margin-bottom:6px;}
+  .hive-field input, .hive-field textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--text);font-size:14px;font-family:inherit;}
+  .hive-field input:focus, .hive-field textarea:focus{outline:none;border-color:var(--honey);}
+  .hive-field textarea{resize:vertical;min-height:64px;}
+  .hive-modal-actions{display:flex;gap:10px;margin-top:18px;}
+  .hive-modal-actions button{flex:1;}
+  .hive-close{position:absolute;top:18px;right:18px;background:none;border:none;color:var(--text-faint);font-size:20px;cursor:pointer;line-height:1;}
+  .hive-close:hover{color:var(--text);}
+  .hive-success{text-align:center;padding:12px 0;}
+  .hive-success i{font-size:36px;color:var(--green);margin-bottom:12px;display:block;}
+  .hive-success p{font-size:14px;color:var(--text-dim);}
+
   @media (max-width:600px){
     .q-card{padding:22px;}
     .stats-row{grid-template-columns:1fr 1fr 1fr;gap:8px;}
@@ -132,6 +157,8 @@
     .stat-val{font-size:19px;}
   }
 </style>
+<!-- Общий слой микроанимаций и hover-эффектов (см. hive-motion.css) -->
+<link rel="stylesheet" href="hive-motion.css">
 </head>
 <body>
 
@@ -197,9 +224,19 @@
       <div class="leg-item"><div class="leg-dot" style="background:var(--text-faint)"></div>Усилит систему в связке</div>
     </div>
 
-    <div class="modules-grid" id="mod-grid"></div>
+    <div class="modules-grid reveal-group" id="mod-grid"></div>
 
     <div class="chain-row" id="chain"></div>
+
+    <!-- Основной CTA после диагностики: приглашаем обсудить карту
+         системы на бесплатной консультации, используя тот же
+         компонент модалки, что и на страницах модулей. -->
+    <div class="bottom-cta reveal">
+      <div><div class="bc-title">Хотите обсудить вашу карту?</div><div class="bc-sub">Разберём результаты и приоритеты вместе — бесплатно и без обязательств</div></div>
+      <div class="bc-btns">
+        <button class="btn-primary" onclick="hiveOpenForm('Результаты диагностики', 'consult')">Записаться на бесплатную консультацию</button>
+      </div>
+    </div>
 
     <div class="reset-banner">
       <div><div class="rb-title">Пройти диагностику заново</div><div class="rb-sub">Данные обновятся — карта пересчитается</div></div>
@@ -208,7 +245,34 @@
   </div>
 </div>
 
+<div class="hive-overlay" id="hive-modal-overlay">
+  <div class="hive-modal">
+    <button class="hive-close" onclick="hiveCloseForm()" aria-label="Закрыть">&times;</button>
+    <h3 id="hive-modal-title">Записаться на бесплатную консультацию</h3>
+    <input type="hidden" id="hive-modal-module">
+    <input type="hidden" id="hive-modal-intent">
+    <form id="hive-form-fields" onsubmit="hiveSubmitForm(event)">
+      <div class="hive-field"><label for="hive-name">Имя</label><input type="text" id="hive-name" placeholder="Как вас зовут"></div>
+      <div class="hive-field"><label for="hive-contact">Телефон, телеграм или email</label><input type="text" id="hive-contact" required placeholder="Куда написать"></div>
+      <div class="hive-field"><label for="hive-comment">Комментарий (необязательно)</label><textarea id="hive-comment" placeholder="Коротко о вашей ситуации"></textarea></div>
+      <div class="hive-modal-actions">
+        <button type="button" class="btn-outline" onclick="hiveCloseForm()">Отмена</button>
+        <button type="submit" class="btn-primary">Отправить</button>
+      </div>
+    </form>
+    <div id="hive-form-success" style="display:none;" class="hive-success">
+      <i class="ti ti-circle-check"></i>
+      <p>Заявка отправлена. Свяжемся в течение дня.</p>
+      <div class="hive-modal-actions" style="margin-top:18px;">
+        <button class="btn-primary" style="flex:1;" onclick="hiveCloseForm()">Готово</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="hive-lead-capture.js"></script>
+<!-- Общий слой микроанимаций: плавное появление секций при скролле -->
+<script src="hive-motion.js"></script>
 <script>
 const questions = [
   {module:'О компании', text:'Сколько сотрудников в вашей компании?', opts:['До 30 человек','30–100 человек','100–300 человек','Более 300 человек'], key:'size'},

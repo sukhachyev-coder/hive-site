@@ -198,7 +198,7 @@
   .example-key{font-size:12px;color:var(--text-faint);margin-bottom:4px;}
   .example-val{font-size:14px;color:var(--text-dim);line-height:1.6;}
 
-  .hive-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+  .hive-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
   .hive-modal{background:var(--bg-card);border:1px solid var(--line-strong);border-radius:16px;padding:28px;max-width:420px;width:100%;position:relative;}
   .hive-modal h3{font-size:18px;font-weight:600;margin-bottom:18px;}
   .hive-field{margin-bottom:14px;}
@@ -254,6 +254,8 @@
     .split{gap:32px;}
   }
 </style>
+<!-- Общий слой микроанимаций и hover-эффектов (см. hive-motion.css) -->
+<link rel="stylesheet" href="hive-motion.css">
 </head>
 <body>
 
@@ -309,7 +311,7 @@
          чтобы не конкурировать вниманием с самими карточками. -->
     <p class="hive-kit-hint">Соберите свой комплект решений — выберите несколько модулей для расчёта стоимости и получения персонального предложения.</p>
 
-    <div class="hive-grid">
+    <div class="hive-grid reveal-group">
       <div class="cell"
            data-solution-id="kpi"
            data-name="KPI и мотивация"
@@ -402,7 +404,7 @@
   </section>
 
   <section id="how">
-    <div class="split">
+    <div class="split reveal-group">
       <div class="pain-card bad">
         <div class="pain-head">Без системы</div>
         <p>HR-процессы держатся на памяти и договорённостях. Каждый новый сотрудник адаптируется по-своему. Премии выплачиваются по ощущениям. Руководитель не видит, что именно не работает.</p>
@@ -417,9 +419,9 @@
   <section id="decision-review">
     <div class="section-eyebrow">Разбор ситуации</div>
     <h2>Не знаете с чего начать — или сомневаетесь, нужно ли вообще?</h2>
-    <p class="section-lead">Иногда задача не в том чтобы купить модуль, а в том чтобы понять — стоит ли вообще что-то менять прямо сейчас. Мы разберём вашу ситуацию и скажем честно.</p>
+    <p class="section-lead">Иногда задача не в том чтобы подключить модуль, а в том чтобы понять — стоит ли вообще что-то менять прямо сейчас. Мы разберём вашу ситуацию и скажем честно.</p>
 
-    <div class="split" style="margin-bottom:40px;">
+    <div class="split reveal" style="margin-bottom:40px;">
       <div>
         <div class="decision-path">
           <div class="decision-step">
@@ -443,7 +445,7 @@
           </div>
         </div>
         <div class="hero-actions decision-actions" style="margin-top:24px;">
-          <button class="btn-primary" onclick="hiveOpenDecisionReview()">Разобрать мою ситуацию</button>
+          <button class="btn-primary" onclick="hiveOpenDecisionReview()">Обсудить задачи бизнеса</button>
           <button class="btn-outline" onclick="document.getElementById('decision-example').scrollIntoView({behavior:'smooth'})">Посмотреть пример</button>
         </div>
       </div>
@@ -470,7 +472,7 @@
   </section>
 
   <section id="diagnostics">
-    <div class="cta-band">
+    <div class="cta-band reveal">
       <h2>Начните с диагностики</h2>
       <p>5–7 минут — и вы увидите карту своей HR-системы: что уже работает, что стоит запустить первым.</p>
       <button class="btn-primary" onclick="location.href='diagnostics.html'">Пройти диагностику</button>
@@ -505,7 +507,7 @@
         <span id="hive-kit-count">0 решений</span> · <strong id="hive-kit-total">0 ₽</strong>
       </div>
     </div>
-    <button class="btn-primary" onclick="handleGetOfferClick()">Получить предложение</button>
+    <button class="btn-primary" onclick="handleGetOfferClick()">Получить индивидуальную конфигурацию</button>
   </div>
 </div>
 
@@ -543,6 +545,8 @@
 <script src="hive-lead-capture.js"></script>
 <!-- Новый файл: логика выбора нескольких решений (комплект) -->
 <script src="solutions-selector.js"></script>
+<!-- Общий слой микроанимаций: плавное появление секций при скролле -->
+<script src="hive-motion.js"></script>
 <script>
 function hiveOpenDecisionReview() {
   hiveOpenForm('Decision Review', 'start');
