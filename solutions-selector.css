@@ -282,6 +282,7 @@ body.has-kit-panel {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
 }
 .cell-price-old {
   color: var(--text-faint);
