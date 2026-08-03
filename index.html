@@ -156,6 +156,12 @@
   }
   .cell-name{font-size:15px;font-weight:600;margin-bottom:6px;}
   .cell-desc{font-size:13px;color:var(--text-dim);line-height:1.5;margin-bottom:14px;}
+  .cell-preview{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+  .cell-preview-item{font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:6px;}
+  .cell-preview-item b{
+    font-size:10px;font-weight:700;color:var(--text-faint);letter-spacing:0.02em;
+    border:1px solid var(--line-strong);border-radius:4px;padding:1px 5px;flex-shrink:0;
+  }
   .cell-foot{display:flex;flex-direction:column;align-items:flex-start;gap:6px;font-size:12px;color:var(--text-faint);}
   .cell-price{color:var(--honey);font-weight:600;}
 
@@ -211,6 +217,22 @@
   .consult-cta{display:flex;flex-direction:column;align-items:flex-start;gap:12px;}
   .btn-lg{padding:18px 32px;font-size:16px;}
   .consult-hint{font-size:12px;color:var(--text-faint);max-width:260px;line-height:1.5;}
+
+  /* ---------- Анатомия модуля: что конкретно входит в комплект ---------- */
+  .module-anatomy{
+    display:flex;border:1px solid var(--line);border-radius:14px;padding:24px 0;
+    margin-bottom:28px;background:var(--bg-card);
+  }
+  .anatomy-item{flex:1;display:flex;gap:12px;padding:0 24px;align-items:flex-start;}
+  .anatomy-item + .anatomy-item{border-left:1px solid var(--line);}
+  .anatomy-icon{width:30px;height:30px;flex-shrink:0;color:var(--honey);}
+  .anatomy-icon svg{width:100%;height:100%;}
+  .anatomy-title{font-size:14px;font-weight:600;margin-bottom:4px;}
+  .anatomy-text{font-size:12px;color:var(--text-dim);line-height:1.55;}
+  @media (max-width:760px){
+    .module-anatomy{flex-direction:column;gap:20px;padding:20px;}
+    .anatomy-item + .anatomy-item{border-left:none;border-top:1px solid var(--line);padding-top:16px;}
+  }
 
   /* path / connective tissue */
   .path-row{
@@ -453,6 +475,30 @@
     <!-- Подсказка: объясняет, что карточки можно выбирать (а не только открывать).
          Намеренно минималистичная — маленький серый текст без рамок и иконок,
          чтобы не конкурировать вниманием с самими карточками. -->
+    <div class="module-anatomy reveal">
+      <div class="anatomy-item">
+        <div class="anatomy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="15" y2="16"/></svg></div>
+        <div>
+          <div class="anatomy-title">Готовые инструменты и документы</div>
+          <div class="anatomy-text">Не рыба «для галочки» — рабочие таблицы, калькуляторы, регламенты и скрипты в XLSX/DOCX, названные и перечисленные для каждого модуля.</div>
+        </div>
+      </div>
+      <div class="anatomy-item">
+        <div class="anatomy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c0-3.3 2.5-6 5.5-6s5.5 2.7 5.5 6"/><circle cx="17.5" cy="9" r="2.2"/><path d="M15.8 20c0-2.7 1-4.8 2.7-5.4"/></svg></div>
+        <div>
+          <div class="anatomy-title">Сессии внедрения с экспертом</div>
+          <div class="anatomy-text">Не просто файлы по почте — совместная сборка под структуру вашей компании и запуск с командой на живых встречах.</div>
+        </div>
+      </div>
+      <div class="anatomy-item">
+        <div class="anatomy-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 16 14"/></svg></div>
+        <div>
+          <div class="anatomy-title">Понятный срок — 2–3 недели</div>
+          <div class="anatomy-text">От диагностики роли до запуска в работу — весь модуль, без размытых сроков «постепенно внедрим».</div>
+        </div>
+      </div>
+    </div>
+
     <p class="hive-kit-hint">Соберите свой комплект решений — выберите несколько модулей для расчёта стоимости и получения персонального предложения.</p>
     <div class="tier-legend">
       <span class="tier-legend-item">2–3 модуля <b>−5%</b></span>
@@ -473,7 +519,11 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">KPI и мотивация</div>
         <div class="cell-desc">Матрица KPI, формула и калькулятор премии, регламент пересмотра</div>
-        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">72 000 ₽</span><span class="cell-badge"></span></span></div>
+        <div class="cell-preview">
+          <span class="cell-preview-item">Калькулятор премии <b>XLSX</b></span>
+          <span class="cell-preview-item">KPI-матрица по ролям <b>XLSX</b></span>
+        </div>
+        <div class="cell-foot"><span>и ещё 7 в комплекте</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">72 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-kpi.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
       <div class="cell"
@@ -486,7 +536,11 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">Адаптация 30/60/90</div>
         <div class="cell-desc">Маршрут адаптации, чек-листы, контрольные точки для руководителя</div>
-        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">68 000 ₽</span><span class="cell-badge"></span></span></div>
+        <div class="cell-preview">
+          <span class="cell-preview-item">Маршрут адаптации 30/60/90 <b>DOCX</b></span>
+          <span class="cell-preview-item">План встреч с руководителем <b>XLSX</b></span>
+        </div>
+        <div class="cell-foot"><span>и ещё 7 в комплекте</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">68 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-adapt.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
       <div class="cell"
@@ -499,7 +553,11 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">Подбор и найм</div>
         <div class="cell-desc">Воронка найма, профиль кандидата, скрипты интервью, оффер</div>
-        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">70 000 ₽</span><span class="cell-badge"></span></span></div>
+        <div class="cell-preview">
+          <span class="cell-preview-item">Скрипты интервью <b>DOCX</b></span>
+          <span class="cell-preview-item">Воронка найма по этапам <b>XLSX</b></span>
+        </div>
+        <div class="cell-foot"><span>и ещё 7 в комплекте</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">70 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-hire.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
       <div class="cell"
@@ -512,7 +570,11 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">Оргструктура и роли</div>
         <div class="cell-desc">Схема структуры, RACI, должностные профили</div>
-        <div class="cell-foot"><span>8 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">68 000 ₽</span><span class="cell-badge"></span></span></div>
+        <div class="cell-preview">
+          <span class="cell-preview-item">Матрица RACI <b>XLSX</b></span>
+          <span class="cell-preview-item">Схема оргструктуры <b>DOCX/PDF</b></span>
+        </div>
+        <div class="cell-foot"><span>и ещё 6 в комплекте</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">68 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-org.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
       <div class="cell"
@@ -525,7 +587,11 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">Регулярный менеджмент</div>
         <div class="cell-desc">Ритм планерок, 1:1 встречи, отчётность руководителя</div>
-        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">66 000 ₽</span><span class="cell-badge"></span></span></div>
+        <div class="cell-preview">
+          <span class="cell-preview-item">Шаблон ИПР <b>DOCX</b></span>
+          <span class="cell-preview-item">Календарь регулярных встреч <b>XLSX</b></span>
+        </div>
+        <div class="cell-foot"><span>и ещё 7 в комплекте</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">66 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-mgmt.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
       <div class="cell"
@@ -538,7 +604,11 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">HR-аналитика</div>
         <div class="cell-desc">Дашборды подбора, адаптации, KPI и текучести</div>
-        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">70 000 ₽</span><span class="cell-badge"></span></span></div>
+        <div class="cell-preview">
+          <span class="cell-preview-item">Дашборд подбора <b>XLSX</b></span>
+          <span class="cell-preview-item">Дашборд KPI <b>XLSX</b></span>
+        </div>
+        <div class="cell-foot"><span>и ещё 7 в комплекте</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">70 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-analytics.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
     </div>
