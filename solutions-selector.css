@@ -245,12 +245,129 @@ body.has-kit-panel {
   }
 }
 
-/* Уважаем настройку "меньше анимаций" — как и остальной сайт */
+/* ============================================================
+   ЭТАП 3 — ИНТЕРАКТИВНЫЙ КОНФИГУРАТОР СКИДОК
+   ------------------------------------------------------------
+   Логика (см. solutions-selector.js, getTierForCount):
+     1 модуль        — без скидки
+     2–3 модуля      — 5%
+     4–5 модулей     — 10%
+     6–7 модулей     — 15%
+     8+ модулей      — индивидуальные условия
+
+   Ничего из существующей вёрстки/переменных не меняется — новые
+   элементы (.cell-price-group, .cell-price-old, .cell-badge,
+   .hive-kit-tiers, .tier-legend) используют те же CSS-переменные
+   темы, что и остальной сайт.
+   ============================================================ */
+
+/* ---------- Мини-легенда уровней скидок над сеткой карточек ---------- */
+.tier-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: -8px 0 20px;
+}
+.tier-legend-item {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+.tier-legend-item b {
+  color: var(--honey);
+  font-weight: 600;
+}
+
+/* ---------- Цена карточки: старая (перечёркнутая) + новая + бейдж ---------- */
+.cell-price-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cell-price-old {
+  color: var(--text-faint);
+  text-decoration: line-through;
+  font-size: 11px;
+  display: none; /* показывается только когда есть скидка */
+}
+.cell-price-old.is-shown {
+  display: inline;
+}
+.cell-badge {
+  display: none;
+  font-size: 10px;
+  font-weight: 700;
+  color: #241B05;
+  background: var(--honey);
+  padding: 2px 7px;
+  border-radius: 20px;
+  /* лёгкое "выпрыгивание" бейджа при появлении — тот же приём
+     пружинного overshoot, что и у галочки выбора карточки */
+  animation: hive-badge-pop 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.cell-badge.is-shown {
+  display: inline-block;
+}
+.cell-badge.is-individual {
+  background: transparent;
+  border: 1px solid var(--honey);
+  color: var(--honey);
+}
+@keyframes hive-badge-pop {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Пока карточка предпросматривает скидку (ещё не выбрана, но
+   уже показывает "если добавите — будет дешевле") — чуть более
+   тусклая новая цена, чтобы визуально отличать факт от подсказки */
+.cell:not(.is-selected) .cell-price.is-preview {
+  color: var(--amber);
+}
+
+/* ---------- Индикатор уровня скидки в панели "Ваш комплект" ---------- */
+.hive-kit-tiers {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+.tier-dot {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background-color 200ms ease;
+  min-width: 18px;
+}
+.tier-dot.is-active {
+  background: var(--honey);
+}
+.tier-dot.is-individual.is-active {
+  background: var(--amber);
+}
+
+#hive-kit-discount {
+  color: var(--honey);
+  font-weight: 600;
+}
+#hive-kit-discount:empty {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .hive-kit-tiers {
+    max-width: 220px;
+  }
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   .cell,
   .cell-select-indicator,
   .cell-select-indicator i,
-  .hive-kit-panel {
+  .hive-kit-panel,
+  .cell-badge,
+  .tier-dot {
     transition: none !important;
+    animation: none !important;
   }
 }

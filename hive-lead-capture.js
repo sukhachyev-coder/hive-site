@@ -57,7 +57,7 @@ function hiveSubmitForm(ev) {
   const moduleName = document.getElementById('hive-modal-module').value;
   const intent = document.getElementById('hive-modal-intent').value;
 
-  const intentLabels = { question: ' (вопрос)', consult: ' (консультация)' };
+  const intentLabels = { question: ' (вопрос)', consult: ' (консультация)', kit: ' (комплект)' };
   hiveSend({
     type: 'lead',
     module: moduleName + (intentLabels[intent] || ' (запуск)'),

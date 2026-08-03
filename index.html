@@ -159,6 +159,58 @@
   .cell-foot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-faint);}
   .cell-price{color:var(--honey);font-weight:600;}
 
+  /* ---------- Задачи бизнеса (новый блок карточек) ---------- */
+  .task-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;
+  }
+  .task-card{
+    background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:26px;
+    transition:border-color 0.2s,background-color 0.2s,transform 0.2s;
+  }
+  .task-card:hover{border-color:var(--line-strong);background:var(--bg-card-hover);transform:translateY(-2px);}
+  .task-icon{
+    width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:rgba(244,201,105,0.1);color:var(--honey);margin-bottom:16px;font-size:20px;
+  }
+  .task-title{font-size:16px;font-weight:600;margin-bottom:12px;}
+  .task-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+  .task-list li{font-size:13px;color:var(--text-dim);line-height:1.5;padding-left:16px;position:relative;}
+  .task-list li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--amber);}
+
+  /* ---------- Как мы работаем: горизонтальный roadmap ---------- */
+  .roadmap{
+    display:flex;align-items:flex-start;gap:0;flex-wrap:wrap;
+    background:var(--bg-card);border:1px solid var(--line);border-radius:20px;padding:36px 28px;
+  }
+  .roadmap-step{display:flex;flex-direction:column;align-items:center;text-align:center;width:120px;flex-shrink:0;}
+  .rm-num{
+    width:40px;height:40px;border-radius:50%;border:1.5px solid var(--honey);color:var(--honey);
+    display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;margin-bottom:12px;
+    background:rgba(244,201,105,0.08);
+  }
+  .rm-label{font-size:13px;color:var(--text-dim);line-height:1.4;}
+  .roadmap-arrow{color:var(--text-faint);font-size:16px;flex-shrink:0;align-self:center;margin:12px 4px 0;}
+  @media (max-width:760px){
+    .roadmap{flex-direction:column;align-items:stretch;padding:28px 20px;}
+    .roadmap-step{flex-direction:row;width:auto;text-align:left;gap:14px;align-items:center;}
+    .rm-label{text-align:left;}
+    .roadmap-arrow{transform:rotate(90deg);align-self:flex-start;margin:2px 0 2px 19px;}
+  }
+
+  /* ---------- Бесплатная первичная консультация ---------- */
+  .consult-block{
+    display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;
+    background:linear-gradient(135deg, rgba(244,201,105,0.08), rgba(244,201,105,0.02));
+    border:1px solid var(--line-strong);border-radius:20px;padding:44px;
+  }
+  @media (max-width:760px){.consult-block{grid-template-columns:1fr;}}
+  .consult-list{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .consult-list li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-dim);}
+  .consult-list li i{color:var(--honey);font-size:16px;flex-shrink:0;}
+  .consult-cta{display:flex;flex-direction:column;align-items:flex-start;gap:12px;}
+  .btn-lg{padding:18px 32px;font-size:16px;}
+  .consult-hint{font-size:12px;color:var(--text-faint);max-width:260px;line-height:1.5;}
+
   /* path / connective tissue */
   .path-row{
     display:flex;align-items:center;gap:0;flex-wrap:wrap;margin-top:40px;
@@ -272,23 +324,23 @@
       <span class="brand-name">Hive<span class="sub">SOLUTIONS</span></span>
     </a>
     <div class="nav-links">
+      <a href="#tasks">Задачи бизнеса</a>
+      <a href="#how-we-work">Как мы работаем</a>
       <a href="#modules">Модули</a>
-      <a href="#how">Как работает</a>
-      <a href="#decision-review">Разбор ситуации</a>
       <a href="#diagnostics">Диагностика</a>
     </div>
-    <button class="nav-cta" onclick="location.href='diagnostics.html'">Диагностика</button>
+    <button class="nav-cta" onclick="hiveOpenForm('Бесплатная консультация', 'consult')">Консультация</button>
   </nav>
 
   <div class="hero">
     <div class="eyebrow">
       <svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#E8A33D" stroke-width="1.4"/><circle cx="6" cy="6" r="1.6" fill="#E8A33D"/></svg>
-      Модульная HR-система
+      HR-решения под задачи бизнеса
     </div>
-    <h1>HR-процессы, собранные <em>как улей</em> — модуль за модулем</h1>
-    <p class="hero-sub">6 связанных блоков: от подбора и адаптации до KPI и аналитики. Берите один модуль или собирайте систему целиком — каждый элемент работает сам и сильнее в связке с другими.</p>
+    <h1>Разберём вашу ситуацию <em>и соберём</em> решение под неё</h1>
+    <p class="hero-sub">Не типовой пакет, а конфигурация из нужных вам модулей — от найма и адаптации до KPI и аналитики. Начинается с бесплатной консультации: 30–40 минут, чтобы понять, что решать в первую очередь.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="location.href='diagnostics.html'">Пройти диагностику</button>
+      <button class="btn-primary" onclick="hiveOpenForm('Бесплатная консультация', 'consult')">Записаться на бесплатную консультацию</button>
       <button class="btn-outline" onclick="document.getElementById('modules').scrollIntoView({behavior:'smooth'})">Смотреть модули</button>
     </div>
     <div class="hero-stats">
@@ -300,16 +352,113 @@
 
 </div>
 
+<div class="wrap" id="tasks">
+  <section>
+    <div class="section-eyebrow">Когда стоит подключить Hive</div>
+    <h2>С какими задачами бизнеса мы работаем</h2>
+    <p class="section-lead">Если узнаёте свою компанию хотя бы в одном пункте — есть смысл поговорить.</p>
+
+    <div class="task-grid reveal-group">
+      <div class="task-card">
+        <div class="task-icon"><i class="ti ti-trending-up"></i></div>
+        <div class="task-title">Компания быстро растёт</div>
+        <ul class="task-list">
+          <li>процессы перестают масштабироваться</li>
+          <li>собственник становится узким местом</li>
+          <li>сотрудники работают по-разному</li>
+          <li>управление становится сложнее</li>
+        </ul>
+      </div>
+      <div class="task-card">
+        <div class="task-icon"><i class="ti ti-alert-triangle"></i></div>
+        <div class="task-title">Бизнес столкнулся с кризисом</div>
+        <ul class="task-list">
+          <li>снижение прибыли</li>
+          <li>падение продаж</li>
+          <li>непрозрачные процессы</li>
+          <li>медленное принятие решений</li>
+        </ul>
+      </div>
+      <div class="task-card">
+        <div class="task-icon"><i class="ti ti-list-details"></i></div>
+        <div class="task-title">Не хватает системности</div>
+        <ul class="task-list">
+          <li>хаос в процессах</li>
+          <li>отсутствуют регламенты</li>
+          <li>сложно контролировать работу</li>
+          <li>нет единой среды управления</li>
+        </ul>
+      </div>
+      <div class="task-card">
+        <div class="task-icon"><i class="ti ti-building-skyscraper"></i></div>
+        <div class="task-title">Планируется масштабирование</div>
+        <ul class="task-list">
+          <li>открытие новых направлений</li>
+          <li>рост команды</li>
+          <li>запуск филиалов</li>
+          <li>увеличение нагрузки на управление</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-we-work">
+    <div class="section-eyebrow">Как мы работаем</div>
+    <h2>От диагностики до результата — по шагам</h2>
+    <p class="section-lead">Прозрачный процесс: вы видите, что происходит на каждом этапе, и на что это влияет дальше.</p>
+
+    <div class="roadmap reveal-group">
+      <div class="roadmap-step"><div class="rm-num">1</div><div class="rm-label">Диагностика</div></div>
+      <div class="roadmap-arrow" aria-hidden="true">→</div>
+      <div class="roadmap-step"><div class="rm-num">2</div><div class="rm-label">Анализ компании</div></div>
+      <div class="roadmap-arrow" aria-hidden="true">→</div>
+      <div class="roadmap-step"><div class="rm-num">3</div><div class="rm-label">Подбор решений</div></div>
+      <div class="roadmap-arrow" aria-hidden="true">→</div>
+      <div class="roadmap-step"><div class="rm-num">4</div><div class="rm-label">Индивидуальная конфигурация Hive</div></div>
+      <div class="roadmap-arrow" aria-hidden="true">→</div>
+      <div class="roadmap-step"><div class="rm-num">5</div><div class="rm-label">Внедрение</div></div>
+      <div class="roadmap-arrow" aria-hidden="true">→</div>
+      <div class="roadmap-step"><div class="rm-num">6</div><div class="rm-label">Поддержка и развитие</div></div>
+    </div>
+  </section>
+
+  <section id="consult">
+    <div class="consult-block reveal">
+      <div>
+        <div class="section-eyebrow">Первый шаг</div>
+        <h2>Бесплатная первичная консультация</h2>
+        <p class="section-lead" style="margin-bottom:24px;">Прежде чем предлагать решение, нужно понять вашу ситуацию.</p>
+        <ul class="consult-list">
+          <li><i class="ti ti-clock"></i> 30–40 минут</li>
+          <li><i class="ti ti-search"></i> Разбираем задачи и текущие процессы компании</li>
+          <li><i class="ti ti-puzzle"></i> Определяем, какая конфигурация Hive подходит</li>
+          <li><i class="ti ti-route"></i> Обсуждаем предварительный план внедрения</li>
+        </ul>
+      </div>
+      <div class="consult-cta">
+        <button class="btn-primary btn-lg" onclick="hiveOpenForm('Бесплатная консультация', 'consult')">Записаться на бесплатную консультацию</button>
+        <div class="consult-hint">Без обязательств — вы получите ясность, даже если решите не продолжать</div>
+      </div>
+    </div>
+  </section>
+</div>
+
 <div class="wrap" id="modules">
   <section>
-    <div class="section-eyebrow">Карта системы</div>
-    <h2>Каждый модуль — рабочая ячейка</h2>
-    <p class="section-lead">Можно начать с одного блока под конкретную задачу. Система подскажет, что усилит результат дальше.</p>
+    <div class="section-eyebrow">Ваша конфигурация</div>
+    <h2>Решение собирается из необходимых модулей</h2>
+    <p class="section-lead">Не существует универсального HR-решения — под каждую компанию собирается своя конфигурация Hive. Чем больше модулей в комплекте, тем выгоднее его стоимость.</p>
 
     <!-- Подсказка: объясняет, что карточки можно выбирать (а не только открывать).
          Намеренно минималистичная — маленький серый текст без рамок и иконок,
          чтобы не конкурировать вниманием с самими карточками. -->
     <p class="hive-kit-hint">Соберите свой комплект решений — выберите несколько модулей для расчёта стоимости и получения персонального предложения.</p>
+    <div class="tier-legend">
+      <span class="tier-legend-item">2–3 модуля <b>−5%</b></span>
+      <span class="tier-legend-item">4–5 модулей <b>−10%</b></span>
+      <span class="tier-legend-item">6–7 модулей <b>−15%</b></span>
+      <span class="tier-legend-item">8+ модулей <b>индивидуально</b></span>
+    </div>
 
     <div class="hive-grid reveal-group">
       <div class="cell"
@@ -323,7 +472,7 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">KPI и мотивация</div>
         <div class="cell-desc">Матрица KPI, формула и калькулятор премии, регламент пересмотра</div>
-        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">72 000 ₽</span></div>
+        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">72 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-kpi.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
       <div class="cell"
@@ -336,7 +485,7 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">Адаптация 30/60/90</div>
         <div class="cell-desc">Маршрут адаптации, чек-листы, контрольные точки для руководителя</div>
-        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">68 000 ₽</span></div>
+        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">68 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-adapt.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
       <div class="cell"
@@ -349,7 +498,7 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">Подбор и найм</div>
         <div class="cell-desc">Воронка найма, профиль кандидата, скрипты интервью, оффер</div>
-        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">70 000 ₽</span></div>
+        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">70 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-hire.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
       <div class="cell"
@@ -362,7 +511,7 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">Оргструктура и роли</div>
         <div class="cell-desc">Схема структуры, RACI, должностные профили</div>
-        <div class="cell-foot"><span>8 артефактов</span><span class="cell-price">68 000 ₽</span></div>
+        <div class="cell-foot"><span>8 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">68 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-org.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
       <div class="cell"
@@ -375,7 +524,7 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">Регулярный менеджмент</div>
         <div class="cell-desc">Ритм планерок, 1:1 встречи, отчётность руководителя</div>
-        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">66 000 ₽</span></div>
+        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">66 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-mgmt.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
       <div class="cell"
@@ -388,7 +537,7 @@
         <div class="cell-select-indicator" aria-hidden="true"><i class="ti ti-check"></i></div>
         <div class="cell-name">HR-аналитика</div>
         <div class="cell-desc">Дашборды подбора, адаптации, KPI и текучести</div>
-        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price">70 000 ₽</span></div>
+        <div class="cell-foot"><span>9 артефактов</span><span class="cell-price-group"><span class="cell-price-old"></span><span class="cell-price">70 000 ₽</span><span class="cell-badge"></span></span></div>
         <a class="cell-more" href="module-analytics.html" onclick="event.stopPropagation()">Подробнее →</a>
       </div>
     </div>
@@ -504,8 +653,9 @@
     <div class="hive-kit-info">
       <div class="hive-kit-title">Ваш комплект</div>
       <div class="hive-kit-meta">
-        <span id="hive-kit-count">0 решений</span> · <strong id="hive-kit-total">0 ₽</strong>
+        <span id="hive-kit-count">0 решений</span> · <span id="hive-kit-discount"></span> · <strong id="hive-kit-total">0 ₽</strong>
       </div>
+      <div class="hive-kit-tiers" id="hive-kit-tiers" aria-hidden="true"></div>
     </div>
     <button class="btn-primary" onclick="handleGetOfferClick()">Получить индивидуальную конфигурацию</button>
   </div>
