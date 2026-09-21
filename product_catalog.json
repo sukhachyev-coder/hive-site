@@ -1,0 +1,70 @@
+﻿{
+  "version": "1.0",
+  "currency": "RUB",
+  "source": "Product Contract Matrix",
+  "products": [
+    {
+      "id": "kpi",
+      "name": "KPI и мотивация",
+      "base_price": 274000
+    },
+    {
+      "id": "adapt",
+      "name": "Адаптация 30/60/90",
+      "base_price": 176000
+    },
+    {
+      "id": "hire",
+      "name": "Подбор и найм",
+      "base_price": 156000
+    },
+    {
+      "id": "org",
+      "name": "Оргструктура и роли",
+      "base_price": 297000
+    },
+    {
+      "id": "mgmt",
+      "name": "Регулярный менеджмент",
+      "base_price": 187000
+    },
+    {
+      "id": "analytics",
+      "name": "HR-аналитика",
+      "base_price": 79000
+    }
+  ],
+  "discounts": [
+    {
+      "min_modules": 1,
+      "max_modules": 1,
+      "percent": 0,
+      "label": "1 модуль"
+    },
+    {
+      "min_modules": 2,
+      "max_modules": 3,
+      "percent": 5,
+      "label": "2–3 модуля −5%"
+    },
+    {
+      "min_modules": 4,
+      "max_modules": 5,
+      "percent": 10,
+      "label": "4–5 модулей −10%"
+    },
+    {
+      "min_modules": 6,
+      "max_modules": 7,
+      "percent": 15,
+      "label": "6–7 модулей −15%"
+    },
+    {
+      "min_modules": 8,
+      "max_modules": null,
+      "percent": 0,
+      "individual": true,
+      "label": "8+ модулей — индивидуальные условия"
+    }
+  ]
+}
