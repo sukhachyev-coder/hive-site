@@ -36,12 +36,6 @@
   ],
   "discounts": [
     {
-      "min_modules": 1,
-      "max_modules": 1,
-      "percent": 0,
-      "label": "1 модуль"
-    },
-    {
       "min_modules": 2,
       "max_modules": 3,
       "percent": 5,
