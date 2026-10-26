@@ -81,6 +81,7 @@
   nav{
     display:flex; align-items:center; justify-content:space-between;
     padding:28px 0; position:relative; z-index:2;
+    flex-wrap:wrap; gap:12px;
   }
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;}
   .brand-mark{width:30px;height:30px;flex-shrink:0;}
@@ -95,6 +96,25 @@
     transition:background 0.15s,border-color 0.15s;font-family:inherit;
   }
   .nav-cta:hover{background:rgba(244,201,105,0.08);border-color:var(--honey);}
+
+  .nav-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+
+  .hive-phone-wrap{position:relative;display:inline-block;}
+  .hive-phone-popover{
+    position:absolute;top:calc(100% + 8px);right:0;
+    background:var(--bg-card);border:1px solid var(--line-strong);border-radius:10px;
+    padding:10px 12px;display:flex;align-items:center;gap:10px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);z-index:60;
+    min-width:200px;
+  }
+  .hive-phone-popover[hidden]{display:none !important;}
+  .hive-phone-number{font-size:14px;color:var(--text);font-weight:600;letter-spacing:0.02em;flex:1;word-break:break-all;}
+  .hive-phone-copy{
+    background:transparent;border:1px solid var(--line-strong);color:var(--honey);
+    padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;
+    transition:background 0.15s,border-color 0.15s;
+  }
+  .hive-phone-copy:hover{background:rgba(244,201,105,0.08);border-color:var(--honey);}
 
   .hero{padding:64px 0 80px;position:relative;z-index:2;}
   .eyebrow{
@@ -325,6 +345,9 @@
   @media (max-width:680px){
     h1{font-size:36px;}
     .nav-links{display:none;}
+    .nav-actions{gap:6px;}
+    .nav-cta{padding:7px 12px;font-size:13px;}
+    .hive-phone-popover{left:0;right:auto;min-width:180px;}
     .split{gap:32px;}
   }
 </style>
@@ -351,7 +374,17 @@
       <a href="#modules">Модули</a>
       <a href="#diagnostics">Диагностика</a>
     </div>
-    <button class="nav-cta" onclick="hiveOpenForm('Бесплатная консультация', 'consult')">Консультация</button>
+    <div class="nav-actions">
+      <div class="hive-phone-wrap" id="hive-phone-wrap">
+        <button class="nav-cta" id="hive-phone-btn" type="button" onclick="hiveTogglePhone()" aria-haspopup="true" aria-expanded="false" aria-controls="hive-phone-popover" aria-label="Позвонить">Позвонить</button>
+        <div class="hive-phone-popover" id="hive-phone-popover" role="dialog" aria-label="Номер телефона" hidden>
+          <span class="hive-phone-number" id="hive-phone-number"></span>
+          <button class="hive-phone-copy" id="hive-phone-copy" type="button" onclick="hiveCopyPhone()" aria-label="Скопировать номер">Копировать</button>
+        </div>
+      </div>
+      <button class="nav-cta" type="button" onclick="hiveOpenForm('Главная страница', 'callback')" aria-label="Связаться со мной">Связаться со мной</button>
+      <button class="nav-cta" type="button" onclick="hiveOpenForm('Бесплатная консультация', 'consult')">Консультация</button>
+    </div>
   </nav>
 
   <div class="hero">
